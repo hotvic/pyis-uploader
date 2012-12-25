@@ -119,6 +119,7 @@ def pass_args():
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
 			print HELPMSG % sys.argv[0]
+			exit(0)
 		elif sys.argv[i] == "-v" or sys.argv[i] == "--version":
 			print VERSION
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
