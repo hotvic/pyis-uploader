@@ -8,6 +8,13 @@ Usage, and options:
 pyih-uploader --help
 </pre>
 
+Installation:
+Run install.sh as root
+<pre>
+chmod +x install.sh
+./install.sh
+</pre>
+
 Copyright © 2012 - Victor Aurélio Santos
 
 License GPLv3
