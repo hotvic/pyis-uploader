@@ -9,6 +9,7 @@ pyih-uploader --help
 </pre>
 
 Installation:
+
 Run install.sh as root
 <pre>
 chmod +x install.sh
