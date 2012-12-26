@@ -91,7 +91,7 @@ def execute():
 
 	COMMAND += ";type=image/" + ftype + "' " + 'http://www.imageshack.us/upload_api.php?key=' + IMAGESHACK_KEY
 
-	print "Executing: " + COMMAND
+	#print "Executing: " + COMMAND
 
 	p = subprocess.Popen(COMMAND, stdout=subprocess.PIPE, shell=True);
 	XML = p.communicate()
@@ -101,7 +101,7 @@ def execute():
 	UPLOAD = parseXML(XML[0])
 
 	## Print upload details, or only URL
-	if ONLY_PRINT_URL:
+	if ONLY_PRINT_URL == True:
 		print UPLOAD['LNK_FULL']
 	else:
 		print "Uploader:"
@@ -116,6 +116,7 @@ def execute():
 		print "  Thumbnail image:", UPLOAD['LNK_THMB']
 
 def pass_args():
+	global ONLY_PRINT_URL, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
 			print HELPMSG % sys.argv[0]
