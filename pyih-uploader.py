@@ -48,10 +48,8 @@ def create_request():
 
 	## Add image path to COMMAND
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
-		if COMMAND[-1] == "'":
-			COMMAND += 'fileupload=@' + sys.argv[len(sys.argv) - 1]
-		else:
-			COMMAND += '&fileupload=@' + sys.argv[len(sys.argv) - 1]
+		COMMAND += "'"
+		COMMAND += ' -F "fileupload=@' + sys.argv[len(sys.argv) - 1]
 	else:
 		print "Sorry, error while opennig file to read, file exits ?"
 		exit(1)
@@ -89,7 +87,7 @@ def execute():
 	if ftype == "jpg":
 		ftype = "jpeg"
 
-	COMMAND += ";type=image/" + ftype + "' " + 'http://www.imageshack.us/upload_api.php?key=' + IMAGESHACK_KEY
+	COMMAND += ";type=image/" + ftype + '" ' + 'http://www.imageshack.us/upload_api.php?key=' + IMAGESHACK_KEY
 
 	#print "Executing: " + COMMAND
 
