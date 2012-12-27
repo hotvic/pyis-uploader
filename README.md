@@ -10,11 +10,7 @@ pyih-uploader --help
 
 Installation:
 
-Run install.sh as root
-<pre>
-chmod +x install.sh
-./install.sh
-</pre>
+<a href="https://github.com/hotvic/pyih-uploader/wiki/Installation">Installation</a>
 
 Copyright © 2012 - Victor Aurélio Santos
 
