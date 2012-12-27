@@ -13,26 +13,29 @@ Options:
   -U|--user user  :       Your username (upload to your account, without cookie)
   -c|--cookie id  :       Use Registration code (upload to your account)
   -r|--resize WxH :       Resize image
+  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
   -u|--url-only   :       Only output the uploaded image url
   -V|--version    :       Show script version and exit
   -h|--help       :       Show this help message
 """
 
 ## Options
+IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
 IMAGESHACK_KEY = "12678PUXfedd30dd950694fd9bc206662d4c6eb5"
 ONLY_PRINT_URL = False
+ONLY_PRINT_THB = False
 RESIZE_IMAGE   = False
 USER_USER      = False
 USER_PASSWORD  = False
 USER_COOKIE    = False
 
-COMMAND = "curl -s -F '"
+COMMAND = "curl -s"
 
 def create_request():
 	global COMMAND
 	## Resize image ?
 	if RESIZE_IMAGE != False:
-		COMMAND += 'optsize=1&optsize=' + RESIZE_IMAGE
+		COMMAND += ' -F "optsize=1&optsize=' + RESIZE_IMAGE + '"'
 
 	## Save to account ?
 	if USER_USER != False and USER_PASSWORD == False:
@@ -40,15 +43,14 @@ def create_request():
 	elif USER_USER == False and USER_PASSWORD != False:
 		print "You must specify username(-U|--user)"
 	elif USER_USER != False and USER_PASSWORD != False:
-		COMMAND += '&a_username=' + USER_USER + '&a_password=' + USER_PASSWORD
+		COMMAND += ' -F "a_username=' + USER_USER + '&a_password=' + USER_PASSWORD + '"'
 
 	## Save to account, using cookie ?
 	if USER_COOKIE != False:
-		COMMAND += 'cookie=' + USER_COOKIE
+		COMMAND += ' -F "cookie=' + USER_COOKIE + '"'
 
 	## Add image path to COMMAND
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
-		COMMAND += "'"
 		COMMAND += ' -F "fileupload=@' + sys.argv[len(sys.argv) - 1]
 	else:
 		print "Sorry, error while opennig file to read, file exits ?"
@@ -87,7 +89,7 @@ def execute():
 	if ftype == "jpg":
 		ftype = "jpeg"
 
-	COMMAND += ";type=image/" + ftype + '" ' + 'http://www.imageshack.us/upload_api.php?key=' + IMAGESHACK_KEY
+	COMMAND += ";type=image/" + ftype + '" ' + IMAGESHACK_URL + '?key=' + IMAGESHACK_KEY
 
 	#print "Executing: " + COMMAND
 
@@ -101,6 +103,8 @@ def execute():
 	## Print upload details, or only URL
 	if ONLY_PRINT_URL == True:
 		print UPLOAD['LNK_FULL']
+	elif ONLY_PRINT_THB == True:
+		print UPLOAD['LNK_THMB']
 	else:
 		print "Uploader:"
 		print "  IP:", UPLOAD['UP_IP']
@@ -114,7 +118,7 @@ def execute():
 		print "  Thumbnail image:", UPLOAD['LNK_THMB']
 
 def pass_args():
-	global ONLY_PRINT_URL, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
+	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
 			print HELPMSG % sys.argv[0]
@@ -123,6 +127,8 @@ def pass_args():
 			print VERSION
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
 			ONLY_PRINT_URL = True
+		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
+			ONLY_PRINT_THB = True
 		elif sys.argv[i] == "-r" or sys.argv[i] == "--resize":
 			RESIZE_IMAGE = sys.argv[i + 1]
 		elif sys.argv[i] == "-U" or sys.argv[i] == "--user":
