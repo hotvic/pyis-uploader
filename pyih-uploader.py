@@ -2,10 +2,31 @@
 
 # GPLv3
 
-import sys, os, re, subprocess
+import sys, os, re, subprocess, gettext
 import xml.etree.ElementTree as ET
 
-VERSION = "PyIH-uploader version: 0.1"
+## Options
+IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
+IMAGESHACK_KEY = "12678PUXfedd30dd950694fd9bc206662d4c6eb5"
+ONLY_PRINT_URL = False
+ONLY_PRINT_THB = False
+RESIZE_IMAGE   = False
+USER_USER      = False
+USER_PASSWORD  = False
+USER_COOKIE    = False
+COMMAND        = "curl -s"
+
+## Settings os gettext
+if os.path.isdir(os.path.join(os.getcwd(), "locale")):
+	gettext.bindtextdomain("pyih-uploader", os.path.join(os.getcwd(), "locale"))
+else:
+	gettext.bindtextdomain("pyih-uploader", None)
+gettext.textdomain("pyih-uploader")
+_ = gettext.gettext
+
+VERSION = "PyIH-uploader version: 0.4.0"
+
+
 HELPMSG = """
 Usage: %s [options] filename
 Options:
@@ -19,18 +40,6 @@ Options:
   -h|--help       :       Show this help message
 """
 
-## Options
-IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
-IMAGESHACK_KEY = "12678PUXfedd30dd950694fd9bc206662d4c6eb5"
-ONLY_PRINT_URL = False
-ONLY_PRINT_THB = False
-RESIZE_IMAGE   = False
-USER_USER      = False
-USER_PASSWORD  = False
-USER_COOKIE    = False
-
-COMMAND = "curl -s"
-
 def create_request():
 	global COMMAND
 	## Resize image ?
@@ -39,9 +48,9 @@ def create_request():
 
 	## Save to account ?
 	if USER_USER != False and USER_PASSWORD == False:
-		print "You must specify password(-P|--pass)"
+		print _("Missing Password")
 	elif USER_USER == False and USER_PASSWORD != False:
-		print "You must specify username(-U|--user)"
+		print _("Missing Username")
 	elif USER_USER != False and USER_PASSWORD != False:
 		COMMAND += ' -F "a_username=' + USER_USER + '&a_password=' + USER_PASSWORD + '"'
 
@@ -53,7 +62,7 @@ def create_request():
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
 		COMMAND += ' -F "fileupload=@' + sys.argv[len(sys.argv) - 1]
 	else:
-		print "Sorry, error while opennig file to read, file exits ?"
+		print _("Open File Error")
 		exit(1)
 
 def parseXML(XML):
@@ -62,7 +71,7 @@ def parseXML(XML):
 	try:
 		root = ET.fromstring(XML)
 	except:
-		print "Sorry, Error, try again!"
+		print _("XML Parse Error")
 		exit(2)
 
 	## Resolution
@@ -121,10 +130,11 @@ def pass_args():
 	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
-			print HELPMSG % sys.argv[0]
+			print _("HELPMSG")
 			exit(0)
 		elif sys.argv[i] == "-v" or sys.argv[i] == "--version":
 			print VERSION
+			exit(0)
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
 			ONLY_PRINT_URL = True
 		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
@@ -139,7 +149,7 @@ def pass_args():
 			USER_COOKIE = sys.argv[i + 1]
 
 if len(sys.argv) <= 1 :
-	print HELPMSG % sys.argv[0]
+	print _("HELPMSG")
 else:
 	pass_args()
 	create_request()
