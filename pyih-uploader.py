@@ -26,20 +26,6 @@ _ = gettext.gettext
 
 VERSION = "PyIH-uploader version: 0.4.0"
 
-
-HELPMSG = """
-Usage: %s [options] filename
-Options:
-  -P|--pass pass  :       Your password (upload to your account, without cookie)
-  -U|--user user  :       Your username (upload to your account, without cookie)
-  -c|--cookie id  :       Use Registration code (upload to your account)
-  -r|--resize WxH :       Resize image
-  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
-  -u|--url-only   :       Only output the uploaded image url
-  -V|--version    :       Show script version and exit
-  -h|--help       :       Show this help message
-"""
-
 def create_request():
 	global COMMAND
 	## Resize image ?
@@ -49,8 +35,10 @@ def create_request():
 	## Save to account ?
 	if USER_USER != False and USER_PASSWORD == False:
 		print _("Missing Password")
+		exit(1)
 	elif USER_USER == False and USER_PASSWORD != False:
 		print _("Missing Username")
+		exit(1)
 	elif USER_USER != False and USER_PASSWORD != False:
 		COMMAND += ' -F "a_username=' + USER_USER + '&a_password=' + USER_PASSWORD + '"'
 
