@@ -16,7 +16,7 @@ USER_PASSWORD  = False
 USER_COOKIE    = False
 COMMAND        = "curl -s"
 
-## Settings os gettext
+## Settings of gettext
 if os.path.isdir(os.path.join(os.getcwd(), "locale")):
 	gettext.bindtextdomain("pyih-uploader", os.path.join(os.getcwd(), "locale"))
 else:
@@ -24,7 +24,7 @@ else:
 gettext.textdomain("pyih-uploader")
 _ = gettext.gettext
 
-VERSION = "PyIH-uploader version: 0.4.0"
+VERSION = "PyIH-uploader version: 0.1.5"
 
 def create_request():
 	global COMMAND
@@ -103,16 +103,14 @@ def execute():
 	elif ONLY_PRINT_THB == True:
 		print UPLOAD['LNK_THMB']
 	else:
-		print "Uploader:"
-		print "  IP:", UPLOAD['UP_IP']
-		print "  User:", UPLOAD['UP_US']
-		print "  Cookie:", UPLOAD['UP_CK']
-		print "Resolution:"
-		print "  Width:", UPLOAD['width']
-		print "  Height:", UPLOAD['height']
-		print "Links:"
-		print "  Original image:", UPLOAD['LNK_FULL']
-		print "  Thumbnail image:", UPLOAD['LNK_THMB']
+		print _("UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s") % \
+									(UPLOAD['UP_IP'],
+									UPLOAD['UP_US'],
+									UPLOAD['UP_CK'],
+									UPLOAD['width'],
+									UPLOAD['height'],
+									UPLOAD['LNK_FULL'],
+									UPLOAD['LNK_THMB'])
 
 def pass_args():
 	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE

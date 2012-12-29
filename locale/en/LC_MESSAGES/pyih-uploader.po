@@ -34,7 +34,7 @@ msgstr "Error while opening file to read, file exists ?"
 msgid "XML Parse Error"
 msgstr "Error, Try Again!"
 
-#: pyih-uploader.py:133 pyih-uploader.py:152
+#: pyih-uploader.py:118 pyih-uploader.py:137
 msgid "HELPMSG"
 msgstr ""
 "Usage: pyih-uploader [options] filename\n"
@@ -47,3 +47,17 @@ msgstr ""
 "  -u|--url-only   :       Only output the uploaded image url\n"
 "  -V|--version    :       Show script version and exit\n"
 "  -h|--help       :       Show this help message"
+
+#: pyih-uploader.py:106
+msgid "UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s"
+msgstr ""
+"Uploader:\n"
+"  IP: %1s\n"
+"  User: %2s\n"
+"  Cookie: %3s\n"
+"Resolution:\n"
+"  Width: %4s\n"
+"  Height: %5s\n"
+"Links:\n"
+"  Original image: %6s\n"
+"  Thumbnail image: %7s"
