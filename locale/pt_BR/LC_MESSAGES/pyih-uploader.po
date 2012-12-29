@@ -1,0 +1,65 @@
+# PyIH-Uploader.
+# Copyright (C) 2012 - Victor Aurélio
+# This file is distributed under the same license as the PyIH-Uploader package.
+# Victor Aurélio <victor.feradecs@gmail.com>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyIH-Uploader 0.1.5\n"
+"Report-Msgid-Bugs-To: Victor Aurélio <victor.feradecs@gmail.com>\n"
+"POT-Creation-Date: 2012-12-27 20:42-0300\n"
+"PO-Revision-Date: 2012-12-27 20:53-0300\n"
+"Last-Translator: Victor Aurélio <victor.feradecs@gmail.com>\n"
+"Language-Team: Victor Aurélio <victor.feradecs@gmail.com>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: /home/aurelio/projects/pyih-uploader\n"
+"X-Poedit-SearchPath-1: .\n"
+
+#: pyih-uploader.py:51
+msgid "Missing Password"
+msgstr "Você precisa especificar uma senha (-P|--pass)"
+
+#: pyih-uploader.py:53
+msgid "Missing Username"
+msgstr "Você precisa especificar um usuário (-U|--user) "
+
+#: pyih-uploader.py:65
+msgid "Open File Error"
+msgstr "Erro ao abrir arquivo para leitura, tem certeza que o arquivo existe ?"
+
+#: pyih-uploader.py:74
+msgid "XML Parse Error"
+msgstr "Falha ao enviar imagem, tente novamente!"
+
+#: pyih-uploader.py:119 pyih-uploader.py:138
+msgid "HELPMSG"
+msgstr ""
+"Uso: pyih-uploader [opções] nome_do_arquivo\n"
+"Opções:\n"
+"  -P|--pass pass  :      Sua senha (Envia para sua conta, sem cookie)\n"
+"  -U|--user user  :      Seu usuário (Envia para sua conta, sem cookie)\n"
+"  -c|--cookie id  :      Usar Código de Registro (Envia para sua conta)\n"
+"  -r|--resize WxH :      Redimensionar imagem\n"
+"  -t|--thb-only   :      Somente mostra a URL da imagem (Miniatura)\n"
+"  -u|--url-only   :      Somente mostra a URL da imagem (Completa)\n"
+"  -V|--version    :      Exibir a versão do programa e sair\n"
+"  -h|--help       :      Exibir essa ajuda e sair"
+
+#: pyih-uploader.py:106
+msgid "UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s"
+msgstr ""
+"Quem Enviou:\n"
+"  IP: %1s\n"
+"  Usuário: %2s\n"
+"  Cookie: %3s\n"
+"Resolução:\n"
+"  Largura: %4s\n"
+"  Altura: %5s\n"
+"Links:\n"
+"  Imagem Original: %6s\n"
+"  Imagem Miniatura: %7s"

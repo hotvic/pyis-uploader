@@ -2,22 +2,8 @@
 
 # GPLv3
 
-import sys, os, re, subprocess
+import sys, os, re, subprocess, gettext
 import xml.etree.ElementTree as ET
-
-VERSION = "PyIH-uploader version: 0.1"
-HELPMSG = """
-Usage: %s [options] filename
-Options:
-  -P|--pass pass  :       Your password (upload to your account, without cookie)
-  -U|--user user  :       Your username (upload to your account, without cookie)
-  -c|--cookie id  :       Use Registration code (upload to your account)
-  -r|--resize WxH :       Resize image
-  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
-  -u|--url-only   :       Only output the uploaded image url
-  -V|--version    :       Show script version and exit
-  -h|--help       :       Show this help message
-"""
 
 ## Options
 IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
@@ -28,8 +14,17 @@ RESIZE_IMAGE   = False
 USER_USER      = False
 USER_PASSWORD  = False
 USER_COOKIE    = False
+COMMAND        = "curl -s"
 
-COMMAND = "curl -s"
+## Settings of gettext
+if os.path.isdir(os.path.join(os.getcwd(), "locale")):
+	gettext.bindtextdomain("pyih-uploader", os.path.join(os.getcwd(), "locale"))
+else:
+	gettext.bindtextdomain("pyih-uploader", None)
+gettext.textdomain("pyih-uploader")
+_ = gettext.gettext
+
+VERSION = "PyIH-uploader version: 0.1.5"
 
 def create_request():
 	global COMMAND
@@ -39,9 +34,11 @@ def create_request():
 
 	## Save to account ?
 	if USER_USER != False and USER_PASSWORD == False:
-		print "You must specify password(-P|--pass)"
+		print _("Missing Password")
+		exit(1)
 	elif USER_USER == False and USER_PASSWORD != False:
-		print "You must specify username(-U|--user)"
+		print _("Missing Username")
+		exit(1)
 	elif USER_USER != False and USER_PASSWORD != False:
 		COMMAND += ' -F "a_username=' + USER_USER + '&a_password=' + USER_PASSWORD + '"'
 
@@ -53,7 +50,7 @@ def create_request():
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
 		COMMAND += ' -F "fileupload=@' + sys.argv[len(sys.argv) - 1]
 	else:
-		print "Sorry, error while opennig file to read, file exits ?"
+		print _("Open File Error")
 		exit(1)
 
 def parseXML(XML):
@@ -62,7 +59,7 @@ def parseXML(XML):
 	try:
 		root = ET.fromstring(XML)
 	except:
-		print "Sorry, Error, try again!"
+		print _("XML Parse Error")
 		exit(2)
 
 	## Resolution
@@ -106,25 +103,24 @@ def execute():
 	elif ONLY_PRINT_THB == True:
 		print UPLOAD['LNK_THMB']
 	else:
-		print "Uploader:"
-		print "  IP:", UPLOAD['UP_IP']
-		print "  User:", UPLOAD['UP_US']
-		print "  Cookie:", UPLOAD['UP_CK']
-		print "Resolution:"
-		print "  Width:", UPLOAD['width']
-		print "  Height:", UPLOAD['height']
-		print "Links:"
-		print "  Original image:", UPLOAD['LNK_FULL']
-		print "  Thumbnail image:", UPLOAD['LNK_THMB']
+		print _("UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s") % \
+									(UPLOAD['UP_IP'],
+									UPLOAD['UP_US'],
+									UPLOAD['UP_CK'],
+									UPLOAD['width'],
+									UPLOAD['height'],
+									UPLOAD['LNK_FULL'],
+									UPLOAD['LNK_THMB'])
 
 def pass_args():
 	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
-			print HELPMSG % sys.argv[0]
+			print _("HELPMSG")
 			exit(0)
 		elif sys.argv[i] == "-v" or sys.argv[i] == "--version":
 			print VERSION
+			exit(0)
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
 			ONLY_PRINT_URL = True
 		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
@@ -139,7 +135,7 @@ def pass_args():
 			USER_COOKIE = sys.argv[i + 1]
 
 if len(sys.argv) <= 1 :
-	print HELPMSG % sys.argv[0]
+	print _("HELPMSG")
 else:
 	pass_args()
 	create_request()
