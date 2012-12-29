@@ -34,6 +34,9 @@ install_app(){
 	fi
 	for dir in $(ls locale); do
 		msg3 "Installing $1/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo ..."
+		if [ ! -d $1/share/locale/${dir}/LC_MESSAGES/ ]; then
+			install -d $1/share/locale/${dir}/LC_MESSAGES/
+		fi
 		install locale/${dir}/LC_MESSAGES/pyih-uploader.mo $1/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo || error
 	done
 
@@ -72,14 +75,12 @@ uninstall_app(){
 
 passArgs(){
 	for i in $@; do
-		PREFIX="/usr"
 		if [[ $i = "--prefix="* ]]; then
 			PREFIX=$(echo $i | sed -re 's#\-\-prefix\=(.*)#\1#')
 			LAST=$(echo $PREFIX | sed -re 's/.*(.)$/\1/')
 			if [[ $LAST = "/" ]]; then
 				PREFIX=$(echo $PREFIX | sed -re 's/(.*).$/\1/')
 			fi
-			echo "Using $PREFIX as prefix..."
 		elif [[ $i = "--help" ]]; then
 			cat << !
 Usage: ./install.sh [Options] [Command]
@@ -91,8 +92,10 @@ Options:
   --help    :        Show this help message
 !
 		elif [[ $i = "install" ]]; then
+			msg2 "Using $PREFIX as prefix..."
 			install_app $PREFIX
 		elif [[ $i = "uninstall" ]]; then
+			msg2 "Using $PREFIX as prefix..."
 			uninstall_app $PREFIX
 		fi
 	done
