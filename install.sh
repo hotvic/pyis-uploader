@@ -24,8 +24,18 @@ install_app(){
 	if [ ! -d $1/bin/ ]; then
 		install -d $1/bin/
 	fi
+	if [ ! -d $1/lib/ ]; then
+		install -d $1/lib/pyih-uploader
+	fi
 	msg3 "Installing $1/bin/pyih-uploader ..."
-	install -Dm=755 pyih-uploader.py $1/bin/pyih-uploader || error
+	echo "#!/bin/sh" > $1/bin/pyih-uploader
+	echo "cd $1/lib/pyih-uploader/" >> $1/bin/pyih-uploader
+	echo 'python2 pyih-uploader.py $@' >> $1/bin/pyih-uploader
+	chmod 755 $1/bin/pyih-uploader
+	msg3 "Installing $1/lib/pyih-uploader/pyih-uploader.py ..."
+	install -Dm=644 pyih-uploader.py $1/lib/pyih-uploader/pyih-uploader.py || error
+	msg3 "Installing $1/lib/pyih-uploader/utils.py ..."
+	install -Dm=644 utils.py $1/lib/pyih-uploader/utils.py || error
 
 	## Install locale
 

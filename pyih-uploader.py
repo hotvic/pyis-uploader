@@ -4,13 +4,14 @@
 
 import sys, os, re, subprocess, gettext, pycurl
 import xml.etree.ElementTree as ET
-from cStringIO import StringIO
+from utils import *
 
 ## Options
 IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
 IMAGESHACK_KEY = "47DHIJMSe847793024d16f9db3e6f7b0d31389cc"
 ONLY_PRINT_URL = False
 ONLY_PRINT_THB = False
+SEND_CLIPBOARD = False
 RESIZE_IMAGE   = False
 USER_USER      = False
 USER_PASSWORD  = False
@@ -25,27 +26,7 @@ else:
 gettext.textdomain("pyih-uploader")
 _ = gettext.gettext
 
-VERSION = "PyIH-uploader version: 0.1.6"
-
-class cURL:
-	def __init__(self, url):
-		self.URL = url
-		self.cp = pycurl.Curl()
-
-	def getXML(self, POST):
-		self.cp.setopt(self.cp.POST, 1)
-		self.cp.setopt(self.cp.HTTPPOST, POST)
-		self.cp.setopt(self.cp.URL, self.URL)
-
-		#header = StringIO()
-		#self.cp.setopt(self.cp.HEADERFUNCTION, header.write)
-
-		result = StringIO()
-		self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
-		
-		self.cp.perform()
-		
-		return result.getvalue()
+VERSION = "PyIH-uploader version: 0.1.7"
 
 def create_request():
 	global POST
@@ -113,10 +94,22 @@ def execute():
 
 	## Print upload details, or only URL
 	if ONLY_PRINT_URL == True:
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 		print UPLOAD['LNK_FULL']
+		if SEND_CLIPBOARD == True:
+			if copyToClipB(UPLOAD['LNK_FULL']) == False:
+				print _("You need PyGTK to send to clipboard")
 	elif ONLY_PRINT_THB == True:
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 		print UPLOAD['LNK_THMB']
+		if SEND_CLIPBOARD == True:
+			if copyToClipB(UPLOAD['LNK_THMB']) == False:
+				print _("You need PyGTK to send to clipboard")
 	else:
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 		print _("UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s") % \
 									(UPLOAD['UP_IP'],
 									UPLOAD['UP_US'],
@@ -125,9 +118,13 @@ def execute():
 									UPLOAD['height'],
 									UPLOAD['LNK_FULL'],
 									UPLOAD['LNK_THMB'])
+		if SEND_CLIPBOARD == True:
+			if copyToClipB(UPLOAD['LNK_FULL']) == False:
+				print _("You need PyGTK to send to clipboard")
 
 def pass_args():
-	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE, USER_USER, USER_PASSWORD, USER_COOKIE
+	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE
+	global USER_USER, USER_PASSWORD, USER_COOKIE, SEND_CLIPBOARD
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
 			print _("HELPMSG")
@@ -141,6 +138,8 @@ def pass_args():
 			ONLY_PRINT_THB = True
 		elif sys.argv[i] == "-r" or sys.argv[i] == "--resize":
 			RESIZE_IMAGE = sys.argv[i + 1]
+		elif sys.argv[i] == "-K" or sys.argv[i] == "--clipboard":
+			SEND_CLIPBOARD = True
 		elif sys.argv[i] == "-U" or sys.argv[i] == "--user":
 			USER_USER = sys.argv[i + 1]
 		elif sys.argv[i] == "-P" or sys.argv[i] == "--pass":
