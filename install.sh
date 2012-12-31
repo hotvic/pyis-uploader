@@ -42,7 +42,7 @@ install_app(){
 
 	## Install man page
 	msg3 "Installing man page to $1/share/man/man1/ ..."
-	if [ -d $1/share/man/man1 ]; then
+	if [ ! -d $1/share/man/man1 ]; then
 		install -d $1/share/man/man1
 	fi
 	install -g 0 -o 0 -m 0644 docs/pyih-uploader.1 $1/share/man/man1/ || error
