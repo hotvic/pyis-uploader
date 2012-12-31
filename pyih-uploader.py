@@ -2,19 +2,20 @@
 
 # GPLv3
 
-import sys, os, re, subprocess, gettext
+import sys, os, re, subprocess, gettext, pycurl
 import xml.etree.ElementTree as ET
+from cStringIO import StringIO
 
 ## Options
 IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
-IMAGESHACK_KEY = "12678PUXfedd30dd950694fd9bc206662d4c6eb5"
+IMAGESHACK_KEY = "47DHIJMSe847793024d16f9db3e6f7b0d31389cc"
 ONLY_PRINT_URL = False
 ONLY_PRINT_THB = False
 RESIZE_IMAGE   = False
 USER_USER      = False
 USER_PASSWORD  = False
 USER_COOKIE    = False
-COMMAND        = "curl -s"
+POST           = []
 
 ## Settings of gettext
 if os.path.isdir(os.path.join(os.getcwd(), "locale")):
@@ -24,13 +25,33 @@ else:
 gettext.textdomain("pyih-uploader")
 _ = gettext.gettext
 
-VERSION = "PyIH-uploader version: 0.1.5"
+VERSION = "PyIH-uploader version: 0.1.6"
+
+class cURL:
+	def __init__(self, url):
+		self.URL = url
+		self.cp = pycurl.Curl()
+
+	def getXML(self, POST):
+		self.cp.setopt(self.cp.POST, 1)
+		self.cp.setopt(self.cp.HTTPPOST, POST)
+		self.cp.setopt(self.cp.URL, self.URL)
+
+		#header = StringIO()
+		#self.cp.setopt(self.cp.HEADERFUNCTION, header.write)
+
+		result = StringIO()
+		self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
+		
+		self.cp.perform()
+		
+		return result.getvalue()
 
 def create_request():
-	global COMMAND
+	global POST
 	## Resize image ?
 	if RESIZE_IMAGE != False:
-		COMMAND += ' -F "optsize=1&optsize=' + RESIZE_IMAGE + '"'
+		POST += [('optsize', 1), ('optsize', RESIZE_IMAGE)]
 
 	## Save to account ?
 	if USER_USER != False and USER_PASSWORD == False:
@@ -40,15 +61,15 @@ def create_request():
 		print _("Missing Username")
 		exit(1)
 	elif USER_USER != False and USER_PASSWORD != False:
-		COMMAND += ' -F "a_username=' + USER_USER + '&a_password=' + USER_PASSWORD + '"'
+		POST += [('a_username', USER_USER), ('a_password', USER_PASSWORD)]
 
 	## Save to account, using cookie ?
 	if USER_COOKIE != False:
-		COMMAND += ' -F "cookie=' + USER_COOKIE + '"'
+		POST += [('cookie', USER_COOKIE)]
 
-	## Add image path to COMMAND
+	## Add image path to POST request
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
-		COMMAND += ' -F "fileupload=@' + sys.argv[len(sys.argv) - 1]
+		POST += [('fileupload', (pycurl.FORM_FILE, sys.argv[len(sys.argv) - 1]))]
 	else:
 		print _("Open File Error")
 		exit(1)
@@ -78,24 +99,17 @@ def parseXML(XML):
 	return UPLOAD
 
 def execute():
-	global COMMAND
+	global POST
+	cup = cURL(IMAGESHACK_URL)
 
-	m = re.search('^.*\.([a-zA-Z]{3,4})$', sys.argv[len(sys.argv) - 1])
+	POST += [('key', IMAGESHACK_KEY)]
 
-	ftype = m.group(1)
-	if ftype == "jpg":
-		ftype = "jpeg"
-
-	COMMAND += ";type=image/" + ftype + '" ' + IMAGESHACK_URL + '?key=' + IMAGESHACK_KEY
-
-	#print "Executing: " + COMMAND
-
-	p = subprocess.Popen(COMMAND, stdout=subprocess.PIPE, shell=True);
-	XML = p.communicate()
-	#print XML[0];
+	XML = cup.getXML(POST)
+	#print XML
+	#print POST
 
 	## Parse XML and save details in UPLOAD
-	UPLOAD = parseXML(XML[0])
+	UPLOAD = parseXML(XML)
 
 	## Print upload details, or only URL
 	if ONLY_PRINT_URL == True:
