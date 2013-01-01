@@ -18,23 +18,23 @@ msgstr ""
 "X-Poedit-Basepath: /home/aurelio/projects/pyih-uploader/\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: pyih-uploader.py:51
+#: pyih-uploader.py:46
 msgid "Missing Password"
 msgstr "You must specify an password (-P|--pass)"
 
-#: pyih-uploader.py:53
+#: pyih-uploader.py:49
 msgid "Missing Username"
 msgstr "You must specify an username (-U|--user) "
 
-#: pyih-uploader.py:65
+#: pyih-uploader.py:62
 msgid "Open File Error"
 msgstr "Error while opening file to read, file exists ?"
 
-#: pyih-uploader.py:74
+#: pyih-uploader.py:71
 msgid "XML Parse Error"
 msgstr "Error, Try Again!"
 
-#: pyih-uploader.py:118 pyih-uploader.py:137
+#: pyih-uploader.py:33 pyih-uploader.py:36
 msgid "HELPMSG"
 msgstr ""
 "Usage: pyih-uploader [options] filename\n"
@@ -49,7 +49,7 @@ msgstr ""
 "  -V|--version    :       Show script version and exit\n"
 "  -h|--help       :       Show this help message"
 
-#: pyih-uploader.py:106
+#: pyih-uploader.py:120
 msgid "UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s"
 msgstr ""
 "Uploader:\n"
@@ -62,3 +62,7 @@ msgstr ""
 "Links:\n"
 "  Original image: %6s\n"
 "  Thumbnail image: %7s"
+
+#: pyih-uploader.py:156
+msgid "Error: Unknown Option"
+msgstr "Error: Unknown Option"

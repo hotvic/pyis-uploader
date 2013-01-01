@@ -28,6 +28,13 @@ _ = gettext.gettext
 
 VERSION = "PyIH-uploader version: 0.1.7"
 
+def show_help(quit = True, code = 1):
+	if quit == True:
+		print _("HELPMSG")
+		exit(code)
+	else:
+		print _("HELPMSG")
+
 def create_request():
 	global POST
 	## Resize image ?
@@ -127,8 +134,7 @@ def pass_args():
 	global USER_USER, USER_PASSWORD, USER_COOKIE, SEND_CLIPBOARD
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
-			print _("HELPMSG")
-			exit(0)
+			show_help(True, 0)
 		elif sys.argv[i] == "-V" or sys.argv[i] == "--version":
 			print VERSION
 			exit(0)
@@ -146,9 +152,12 @@ def pass_args():
 			USER_PASSWORD = sys.argv[i + 1]
 		elif sys.argv[i] == "-c" or sys.argv[i] == "--cookie":
 			USER_COOKIE = sys.argv[i + 1]
+		else:
+			print _("Error: Unknown Option")
+			show_help()
 
 if len(sys.argv) <= 1 :
-	print _("HELPMSG")
+	show_help()
 else:
 	pass_args()
 	create_request()
