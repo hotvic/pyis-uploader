@@ -3,15 +3,29 @@ from cStringIO import StringIO
 
 ## PyGTK use to send url to clipboard
 # Constants
-PYGTK_MODULE   = False
+OPT = {
+	'PYGTK_MODULE'   : False,
+	'VERBOSE_OUTPUT' : False
+}
 
 try:
 	import pygtk
 	pygtk.require('2.0')
 	import gtk
-	PYGTK_MODULE = True
+	OPT['PYGTK_MODULE'] = True
 except:
-	PYGTK_MODULE = False
+	OPT['PYGTK_MODULE'] = False
+
+def setopt(optname, value):
+	OPT[optname] = value
+
+def DBG(msg, code = 0):
+	if OPT['VERBOSE_OUTPUT']:
+		print {
+			0: "INFO: %s" % msg,
+			1: "WARN: %s" % msg,
+			2: "Error: %s" % msg
+		}[code]
 
 class clipB:
 	def __init__(self):
@@ -21,7 +35,7 @@ class clipB:
 		self.cb.store()
 
 def copyToClipB(text):
-	if PYGTK_MODULE == False:
+	if OPT['PYGTK_MODULE'] == False:
 		return False
 	else:
 		cb = clipB()
@@ -52,7 +66,13 @@ class cURL:
 		self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
 		self.cp.setopt(self.cp.NOPROGRESS, 0)
 		self.cp.setopt(self.cp.PROGRESSFUNCTION, self.progress)
+		if OPT['VERBOSE_OUTPUT']:
+			self.cp.setopt(self.cp.VERBOSE, 1)
+			self.cp.setopt(self.cp.DEBUGFUNCTION, self.debug)
 		
 		self.cp.perform()
 		
 		return result.getvalue()
+
+	def debug(self, dtype, dmsg):
+		sys.stdout.write("PycURL: (%d): %s" % (dtype, dmsg))

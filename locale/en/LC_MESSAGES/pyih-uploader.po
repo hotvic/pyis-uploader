@@ -46,6 +46,7 @@ msgstr ""
 "  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)\n"
 "  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)\n"
 "  -u|--url-only   :       Only output the uploaded image url\n"
+"  -v|--verbose    :       Show debug messages\n"
 "  -V|--version    :       Show script version and exit\n"
 "  -h|--help       :       Show this help message"
 
@@ -63,6 +64,6 @@ msgstr ""
 "  Original image: %6s\n"
 "  Thumbnail image: %7s"
 
-#: pyih-uploader.py:156
-msgid "Error: Unknown Option"
-msgstr "Error: Unknown Option"
+#: pyih-uploader.py:159
+msgid "Error: Unknown Option: %1s"
+msgstr "Error: Unknown Option: %1s"

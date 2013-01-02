@@ -138,6 +138,8 @@ def pass_args():
 		elif sys.argv[i] == "-V" or sys.argv[i] == "--version":
 			print VERSION
 			exit(0)
+		elif sys.argv[i] == "-v" or sys.argv[i] == "--verbose":
+			setopt('VERBOSE_OUTPUT', True)
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
 			ONLY_PRINT_URL = True
 		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
@@ -153,12 +155,15 @@ def pass_args():
 		elif sys.argv[i] == "-c" or sys.argv[i] == "--cookie":
 			USER_COOKIE = sys.argv[i + 1]
 		else:
-			print _("Error: Unknown Option")
-			show_help()
+			if os.path.isfile(sys.argv[len(sys.argv) - 1]) == False:
+				print _("Error: Unknown Option: %1s") % sys.argv[i]
+				show_help()
 
 if len(sys.argv) <= 1 :
 	show_help()
 else:
 	pass_args()
+	DBG("Calling function: create_request()")
 	create_request()
+	DBG("Calling function: execute()")
 	execute()

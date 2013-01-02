@@ -48,6 +48,7 @@ msgstr ""
 "  -K|--clipboard  :      Enviar URl da imagem para Área de Transferência\n"
 "  -t|--thb-only   :      Somente mostra a URL da imagem (Miniatura)\n"
 "  -u|--url-only   :      Somente mostra a URL da imagem (Completa)\n"
+"  -v|--verbose    :      Exibir mensagens de depuração\n"
 "  -V|--version    :      Exibir a versão do programa e sair\n"
 "  -h|--help       :      Exibir essa ajuda e sair"
 
@@ -65,6 +66,6 @@ msgstr ""
 "  Imagem Original: %6s\n"
 "  Imagem Miniatura: %7s"
 
-#: pyih-uploader.py:156
-msgid "Error: Unknown Option"
-msgstr "Erro: Opção Desconhecida"
+#: pyih-uploader.py:159
+msgid "Error: Unknown Option: %1s"
+msgstr "Erro: Opção Desconhecida: %1s"
