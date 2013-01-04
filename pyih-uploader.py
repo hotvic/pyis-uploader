@@ -125,6 +125,8 @@ def execute():
 									UPLOAD['height'],
 									UPLOAD['LNK_FULL'],
 									UPLOAD['LNK_THMB'])
+		if UPLOAD['UP_US'] == "PyIHUploader":
+			print _("(Warning: Your upload saved on account of PyIHUploader)")
 		if SEND_CLIPBOARD == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
