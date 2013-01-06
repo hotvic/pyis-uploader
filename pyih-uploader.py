@@ -6,16 +6,10 @@ import sys, os, re, subprocess, gettext, pycurl
 import xml.etree.ElementTree as ET
 from utils import *
 
-## Options
-IMAGESHACK_URL = "http://www.imageshack.us/upload_api.php"
-IMAGESHACK_KEY = "47DHIJMSe847793024d16f9db3e6f7b0d31389cc"
-ONLY_PRINT_URL = False
-ONLY_PRINT_THB = False
-SEND_CLIPBOARD = False
-RESIZE_IMAGE   = False
-USER_USER      = False
-USER_PASSWORD  = False
-USER_COOKIE    = False
+## Constants
+IMAGESHACK_URL   = "http://www.imageshack.us/upload_api.php"
+VERSION          = "PyIH-uploader version: 0.1.7"
+## Global variables
 POST           = []
 
 ## Settings of gettext
@@ -25,8 +19,6 @@ else:
 	gettext.bindtextdomain("pyih-uploader", None)
 gettext.textdomain("pyih-uploader")
 _ = gettext.gettext
-
-VERSION = "PyIH-uploader version: 0.1.7"
 
 def show_help(quit = True, code = 1):
 	if quit == True:
@@ -38,22 +30,22 @@ def show_help(quit = True, code = 1):
 def create_request():
 	global POST
 	## Resize image ?
-	if RESIZE_IMAGE != False:
-		POST += [('optsize', 1), ('optsize', RESIZE_IMAGE)]
+	if getopt('RESIZE_IMAGE') != False:
+		POST += [('optsize', 1), ('optsize', getopt('RESIZE_IMAGE'))]
 
 	## Save to account ?
-	if USER_USER != False and USER_PASSWORD == False:
+	if getopt('USER_USER') != False and getopt('USER_PASSWORD') == False:
 		print _("Missing Password")
 		exit(1)
-	elif USER_USER == False and USER_PASSWORD != False:
+	elif getopt('USER_USER') == False and getopt('USER_PASSWORD') != False:
 		print _("Missing Username")
 		exit(1)
-	elif USER_USER != False and USER_PASSWORD != False:
-		POST += [('a_username', USER_USER), ('a_password', USER_PASSWORD)]
+	elif getopt('USER_USER') != False and getopt('USER_PASSWORD') != False:
+		POST += [('a_username', getopt('USER_USER')), ('a_password', getopt('USER_PASSWORD'))]
 
 	## Save to account, using cookie ?
-	if USER_COOKIE != False:
-		POST += [('cookie', USER_COOKIE)]
+	if getopt('USER_COOKIE') != False:
+		POST += [('cookie', getopt('USER_COOKIE'))]
 
 	## Add image path to POST request
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
@@ -90,7 +82,7 @@ def execute():
 	global POST
 	cup = cURL(IMAGESHACK_URL)
 
-	POST += [('key', IMAGESHACK_KEY)]
+	POST += [('key', getopt('IMAGESHACK_KEY'))]
 
 	XML = cup.getXML(POST)
 	#print XML
@@ -100,18 +92,18 @@ def execute():
 	UPLOAD = parseXML(XML)
 
 	## Print upload details, or only URL
-	if ONLY_PRINT_URL == True:
+	if getopt('ONLY_PRINT_URL') == True:
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 		print UPLOAD['LNK_FULL']
-		if SEND_CLIPBOARD == True:
+		if getopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
-	elif ONLY_PRINT_THB == True:
+	elif getopt('ONLY_PRINT_THB') == True:
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 		print UPLOAD['LNK_THMB']
-		if SEND_CLIPBOARD == True:
+		if getopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_THMB']) == False:
 				print _("You need PyGTK to send to clipboard")
 	else:
@@ -127,13 +119,11 @@ def execute():
 									UPLOAD['LNK_THMB'])
 		if UPLOAD['UP_US'] == "PyIHUploader":
 			print _("(Warning: Your upload saved on account of PyIHUploader)")
-		if SEND_CLIPBOARD == True:
+		if getopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
 
 def pass_args():
-	global ONLY_PRINT_URL, ONLY_PRINT_THB, RESIZE_IMAGE
-	global USER_USER, USER_PASSWORD, USER_COOKIE, SEND_CLIPBOARD
 	for i in range(1, len(sys.argv)):
 		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
 			show_help(True, 0)
@@ -143,19 +133,19 @@ def pass_args():
 		elif sys.argv[i] == "-v" or sys.argv[i] == "--verbose":
 			setopt('VERBOSE_OUTPUT', True)
 		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
-			ONLY_PRINT_URL = True
+			setopt('ONLY_PRINT_URL', True)
 		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
-			ONLY_PRINT_THB = True
+			setopt('ONLY_PRINT_THB', True)
 		elif sys.argv[i] == "-r" or sys.argv[i] == "--resize":
-			RESIZE_IMAGE = sys.argv[i + 1]
+			setopt('RESIZE_IMAGE', sys.argv[i + 1])
 		elif sys.argv[i] == "-K" or sys.argv[i] == "--clipboard":
-			SEND_CLIPBOARD = True
+			setopt('SEND_CLIPBOARD', True)
 		elif sys.argv[i] == "-U" or sys.argv[i] == "--user":
-			USER_USER = sys.argv[i + 1]
+			setopt('USER_USER', sys.argv[i + 1])
 		elif sys.argv[i] == "-P" or sys.argv[i] == "--pass":
-			USER_PASSWORD = sys.argv[i + 1]
+			setopt('USER_PASSWORD', sys.argv[i + 1])
 		elif sys.argv[i] == "-c" or sys.argv[i] == "--cookie":
-			USER_COOKIE = sys.argv[i + 1]
+			setpt('USER_COOKIE', sys.argv[i + 1])
 		else:
 			if os.path.isfile(sys.argv[len(sys.argv) - 1]) == False:
 				print _("Error: Unknown Option: %1s") % sys.argv[i]

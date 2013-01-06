@@ -2,8 +2,16 @@ import sys, pycurl
 from cStringIO import StringIO
 
 ## PyGTK use to send url to clipboard
-# Constants
+## Options/Variables
 OPT = {
+	'IMAGESHACK_KEY' : "47DHIJMSe847793024d16f9db3e6f7b0d31389cc",
+	'ONLY_PRINT_URL' : False,
+	'ONLY_PRINT_THB' : False,
+	'SEND_CLIPBOARD' : False,
+	'RESIZE_IMAGE'   : False,
+	'USER_USER'      : False,
+	'USER_PASSWORD'  : False,
+	'USER_COOKIE'    : False,
 	'PYGTK_MODULE'   : False,
 	'VERBOSE_OUTPUT' : False
 }
@@ -15,6 +23,9 @@ try:
 	OPT['PYGTK_MODULE'] = True
 except:
 	OPT['PYGTK_MODULE'] = False
+
+def getopt(optname):
+	return OPT[optname]
 
 def setopt(optname, value):
 	OPT[optname] = value
