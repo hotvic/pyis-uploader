@@ -8,7 +8,7 @@ from utils import *
 
 ## Constants
 IMAGESHACK_URL   = "http://www.imageshack.us/upload_api.php"
-VERSION          = "PyIH-uploader version: 0.1.7"
+VERSION          = "PyIH-uploader version: 0.1.8"
 ## Global variables
 POST           = []
 
