@@ -8,9 +8,9 @@ from utils import *
 
 ## Constants
 IMAGESHACK_URL   = "http://www.imageshack.us/upload_api.php"
-VERSION          = "PyIH-uploader version: 0.1.8"
+VERSION          = "PyIH-uploader version: 0.1.9"
 ## Global variables
-POST           = []
+POST             = []
 
 ## Settings of gettext
 if os.path.isdir(os.path.join(os.getcwd(), "locale")):

@@ -6,37 +6,18 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PyIH-Uploader 0.1.5\n"
+"Project-Id-Version: PyIH-Uploader 0.1.9\n"
 "Report-Msgid-Bugs-To: Victor Aurélio <victor.feradecs@gmail.com>\n"
 "POT-Creation-Date: 2012-12-27 20:42-0300\n"
-"PO-Revision-Date: 2012-12-27 20:53-0300\n"
+"PO-Revision-Date: 2013-01-25 15:30-0300\n"
 "Last-Translator: Victor Aurélio <victor.feradecs@gmail.com>\n"
 "Language-Team: Victor Aurélio <victor.feradecs@gmail.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-Basepath: /home/aurelio/projects/pyih-uploader\n"
-"X-Poedit-SearchPath-1: .\n"
 
-#: pyih-uploader.py:46
-msgid "Missing Password"
-msgstr "Você precisa especificar uma senha (-P|--pass)"
-
-#: pyih-uploader.py:49
-msgid "Missing Username"
-msgstr "Você precisa especificar um usuário (-U|--user) "
-
-#: pyih-uploader.py:62
-msgid "Open File Error"
-msgstr "Erro ao abrir arquivo para leitura, tem certeza que o arquivo existe ?"
-
-#: pyih-uploader.py:71
-msgid "XML Parse Error"
-msgstr "Falha ao enviar imagem, tente novamente!"
-
-#: pyih-uploader.py:33 pyih-uploader.py:36
+#: pyih-uploader.py:25 pyih-uploader.py:29
 msgid "HELPMSG"
 msgstr ""
 "Uso: pyih-uploader [opções] nome_do_arquivo\n"
@@ -52,7 +33,27 @@ msgstr ""
 "  -V|--version    :      Exibir a versão do programa e sair\n"
 "  -h|--help       :      Exibir essa ajuda e sair"
 
-#: pyih-uploader.py:120
+#: pyih-uploader.py:38
+msgid "Missing Password"
+msgstr "Você precisa especificar uma senha (-P|--pass)"
+
+#: pyih-uploader.py:41
+msgid "Missing Username"
+msgstr "Você precisa especificar um usuário (-U|--user)"
+
+#: pyih-uploader.py:54
+msgid "Open File Error"
+msgstr "Erro ao abrir arquivo para leitura, tem certeza que o arquivo existe ?"
+
+#: pyih-uploader.py:63
+msgid "XML Parse Error"
+msgstr "Falha ao enviar imagem, tente novamente!"
+
+#: pyih-uploader.py:101 pyih-uploader.py:108 pyih-uploader.py:124
+msgid "You need PyGTK to send to clipboard"
+msgstr "Você precisa de PyGTK para enviar para área de transferência"
+
+#: pyih-uploader.py:112
 msgid "UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s"
 msgstr ""
 "Quem Enviou:\n"
@@ -66,6 +67,14 @@ msgstr ""
 "  Imagem Original: %6s\n"
 "  Imagem Miniatura: %7s"
 
-#: pyih-uploader.py:159
-msgid "Error: Unknown Option: %1s"
-msgstr "Erro: Opção Desconhecida: %1s"
+#: pyih-uploader.py:121
+msgid "(Warning: Your upload saved on account of PyIHUploader)"
+msgstr "(Aviso: Sua imagem foi salva na conta do PyIHUploader)"
+
+#: pyih-uploader.py:158
+msgid "Error: File not found: %1s"
+msgstr "Erro: Arquivo não encontrado: %1s"
+
+#: pyih-uploader.py:162
+msgid "Error: Please specify file name"
+msgstr "Erro: Por favor especifique o nome do arquivo"
