@@ -2,7 +2,7 @@
 
 # GPLv3
 
-import sys, os, re, subprocess, gettext, pycurl
+import sys, getopt, os, re, subprocess, gettext, pycurl
 import xml.etree.ElementTree as ET
 from utils import *
 
@@ -30,22 +30,22 @@ def show_help(quit = True, code = 1):
 def create_request():
 	global POST
 	## Resize image ?
-	if getopt('RESIZE_IMAGE') != False:
-		POST += [('optsize', 1), ('optsize', getopt('RESIZE_IMAGE'))]
+	if ogetopt('RESIZE_IMAGE') != False:
+		POST += [('optsize', 1), ('optsize', ogetopt('RESIZE_IMAGE'))]
 
 	## Save to account ?
-	if getopt('USER_USER') != False and getopt('USER_PASSWORD') == False:
+	if ogetopt('USER_USER') != False and ogetopt('USER_PASSWORD') == False:
 		print _("Missing Password")
 		exit(1)
-	elif getopt('USER_USER') == False and getopt('USER_PASSWORD') != False:
+	elif ogetopt('USER_USER') == False and ogetopt('USER_PASSWORD') != False:
 		print _("Missing Username")
 		exit(1)
-	elif getopt('USER_USER') != False and getopt('USER_PASSWORD') != False:
-		POST += [('a_username', getopt('USER_USER')), ('a_password', getopt('USER_PASSWORD'))]
+	elif ogetopt('USER_USER') != False and ogetopt('USER_PASSWORD') != False:
+		POST += [('a_username', ogetopt('USER_USER')), ('a_password', ogetopt('USER_PASSWORD'))]
 
 	## Save to account, using cookie ?
-	if getopt('USER_COOKIE') != False:
-		POST += [('cookie', getopt('USER_COOKIE'))]
+	if ogetopt('USER_COOKIE') != False:
+		POST += [('cookie', ogetopt('USER_COOKIE'))]
 
 	## Add image path to POST request
 	if os.path.isfile(sys.argv[len(sys.argv) - 1]):
@@ -82,7 +82,7 @@ def execute():
 	global POST
 	cup = cURL(IMAGESHACK_URL)
 
-	POST += [('key', getopt('IMAGESHACK_KEY'))]
+	POST += [('key', ogetopt('IMAGESHACK_KEY'))]
 
 	XML = cup.getXML(POST)
 	#print XML
@@ -92,18 +92,18 @@ def execute():
 	UPLOAD = parseXML(XML)
 
 	## Print upload details, or only URL
-	if getopt('ONLY_PRINT_URL') == True:
+	if ogetopt('ONLY_PRINT_URL') == True:
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 		print UPLOAD['LNK_FULL']
-		if getopt('SEND_CLIPBOARD') == True:
+		if ogetopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
-	elif getopt('ONLY_PRINT_THB') == True:
+	elif ogetopt('ONLY_PRINT_THB') == True:
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 		print UPLOAD['LNK_THMB']
-		if getopt('SEND_CLIPBOARD') == True:
+		if ogetopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_THMB']) == False:
 				print _("You need PyGTK to send to clipboard")
 	else:
@@ -119,37 +119,48 @@ def execute():
 									UPLOAD['LNK_THMB'])
 		if UPLOAD['UP_US'] == "PyIHUploader":
 			print _("(Warning: Your upload saved on account of PyIHUploader)")
-		if getopt('SEND_CLIPBOARD') == True:
+		if ogetopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
 
 def pass_args():
-	for i in range(1, len(sys.argv)):
-		if sys.argv[i] == "-h" or sys.argv[i] == "--help":
+	try:
+		sopt = "P:U:c:r:KtuvVh"
+		lopt = "pass= user= cookie= resize= clipboard thb-only url-only verbose version help".split()
+		opts, args = getopt.getopt(sys.argv[1:], sopt, lopt)
+	except getopt.GetoptError as err:
+		print str(err)
+		sys.exit(1)
+	for o, a in opts:
+		if o in ("-h", "--help"):
 			show_help(True, 0)
-		elif sys.argv[i] == "-V" or sys.argv[i] == "--version":
+		elif o in ("-V", "--version"):
 			print VERSION
 			exit(0)
-		elif sys.argv[i] == "-v" or sys.argv[i] == "--verbose":
-			setopt('VERBOSE_OUTPUT', True)
-		elif sys.argv[i] == "-u" or sys.argv[i] == "--url-only":
-			setopt('ONLY_PRINT_URL', True)
-		elif sys.argv[i] == "-t" or sys.argv[i] == "--thb-only":
-			setopt('ONLY_PRINT_THB', True)
-		elif sys.argv[i] == "-r" or sys.argv[i] == "--resize":
-			setopt('RESIZE_IMAGE', sys.argv[i + 1])
-		elif sys.argv[i] == "-K" or sys.argv[i] == "--clipboard":
-			setopt('SEND_CLIPBOARD', True)
-		elif sys.argv[i] == "-U" or sys.argv[i] == "--user":
-			setopt('USER_USER', sys.argv[i + 1])
-		elif sys.argv[i] == "-P" or sys.argv[i] == "--pass":
-			setopt('USER_PASSWORD', sys.argv[i + 1])
-		elif sys.argv[i] == "-c" or sys.argv[i] == "--cookie":
-			setpt('USER_COOKIE', sys.argv[i + 1])
+		elif o in ("-v", "--verbose"):
+			osetopt('VERBOSE_OUTPUT', True)
+		elif o in ("-u", "--url-only"):
+			osetopt('ONLY_PRINT_URL', True)
+		elif o in ("-t", "--thb-only"):
+			osetopt('ONLY_PRINT_THB', True)
+		elif o in ("-r", "--resize"):
+			osetopt('RESIZE_IMAGE', a)
+		elif o in ("-K", "--clipboard"):
+			osetopt('SEND_CLIPBOARD', True)
+		elif o in ("-U", "--user"):
+			osetopt('USER_USER', a)
+		elif o in ("-P", "--pass"):
+			osetopt('USER_PASSWORD', a)
+		elif o in ("-c", "--cookie"):
+			osetpt('USER_COOKIE', a)
+	for a in args:
+		if not os.path.isfile(a):
+			print _("Error: File not found: %1s") % a
+			exit(1)
 		else:
-			if os.path.isfile(sys.argv[len(sys.argv) - 1]) == False:
-				print _("Error: Unknown Option: %1s") % sys.argv[i]
-				show_help()
+			return
+	print _("Error: Please specify file name")
+	exit(1)
 
 if len(sys.argv) <= 1 :
 	show_help()

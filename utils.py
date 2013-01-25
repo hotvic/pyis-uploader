@@ -24,10 +24,10 @@ try:
 except:
 	OPT['PYGTK_MODULE'] = False
 
-def getopt(optname):
+def ogetopt(optname):
 	return OPT[optname]
 
-def setopt(optname, value):
+def osetopt(optname, value):
 	OPT[optname] = value
 
 def DBG(msg, code = 0):
