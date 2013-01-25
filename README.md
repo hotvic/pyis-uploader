@@ -12,6 +12,6 @@ Installation:
 
 <a href="https://github.com/hotvic/pyih-uploader/wiki/Installation">Installation</a>
 
-Copyright © 2012 - Victor Aurélio Santos
+Copyright © 2012 - 2013 - Victor Aurélio Santos
 
 License GPLv3
