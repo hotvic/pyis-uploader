@@ -1,4 +1,5 @@
 import sys, pycurl
+from progressbar import *
 from cStringIO import StringIO
 
 ## PyGTK use to send url to clipboard
@@ -58,12 +59,15 @@ class cURL:
 	def __init__(self, url):
 		self.URL = url
 		self.cp = pycurl.Curl()
+		## progressbar
+		pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#', left='[', right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
+		self.pb = ProgressBar(widgets=pyih_widget, maxval=100)
 
 	def progress(self, dt, dd, ut, ud):
 		percent = ut / 100;
 		current = (ud != 0) and int(ud / percent) or 1
-		sys.stdout.write("\r%d%%" % current)
-		sys.stdout.flush()
+		if not current == self.pb.percentage():
+			self.pb.update(current)
 
 	def getXML(self, POST):
 		self.cp.setopt(self.cp.POST, 1)
@@ -75,11 +79,13 @@ class cURL:
 		
 		result = StringIO()
 		self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
-		self.cp.setopt(self.cp.NOPROGRESS, 0)
-		self.cp.setopt(self.cp.PROGRESSFUNCTION, self.progress)
 		if OPT['VERBOSE_OUTPUT']:
 			self.cp.setopt(self.cp.VERBOSE, 1)
 			self.cp.setopt(self.cp.DEBUGFUNCTION, self.debug)
+		elif not OPT['ONLY_PRINT_URL'] or OPT['ONLY_PRINT_THB'] or OPT['VERBOSE_OUTPUT']:
+			self.pb.start()
+			self.cp.setopt(self.cp.NOPROGRESS, 0)
+			self.cp.setopt(self.cp.PROGRESSFUNCTION, self.progress)
 		
 		self.cp.perform()
 		

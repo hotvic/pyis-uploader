@@ -93,22 +93,19 @@ def execute():
 
 	## Print upload details, or only URL
 	if ogetopt('ONLY_PRINT_URL') == True:
-		sys.stdout.write("\r")
-		sys.stdout.flush()
+		print
 		print UPLOAD['LNK_FULL']
 		if ogetopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_FULL']) == False:
 				print _("You need PyGTK to send to clipboard")
 	elif ogetopt('ONLY_PRINT_THB') == True:
-		sys.stdout.write("\r")
-		sys.stdout.flush()
+		print
 		print UPLOAD['LNK_THMB']
 		if ogetopt('SEND_CLIPBOARD') == True:
 			if copyToClipB(UPLOAD['LNK_THMB']) == False:
 				print _("You need PyGTK to send to clipboard")
 	else:
-		sys.stdout.write("\r")
-		sys.stdout.flush()
+		print
 		print _("UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s") % \
 									(UPLOAD['UP_IP'],
 									UPLOAD['UP_US'],
