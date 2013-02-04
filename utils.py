@@ -1,43 +1,20 @@
-import sys, pycurl
+import sys
 from progressbar import *
 from cStringIO import StringIO
 
-## PyGTK use to send url to clipboard
-## Options/Variables
-OPT = {
-	'IMAGESHACK_KEY' : "47DHIJMSe847793024d16f9db3e6f7b0d31389cc",
-	'ONLY_PRINT_URL' : False,
-	'ONLY_PRINT_THB' : False,
-	'SEND_CLIPBOARD' : False,
-	'RESIZE_IMAGE'   : False,
-	'USER_USER'      : False,
-	'USER_PASSWORD'  : False,
-	'USER_COOKIE'    : False,
-	'PYGTK_MODULE'   : False,
-	'VERBOSE_OUTPUT' : False
-}
+## 
+#* This file is part of PyIH-Upload, licensed
+#* under GNU GPL at version 2 or any other version.
+##
 
+## PyGTK use to send url to clipboard
 try:
 	import pygtk
 	pygtk.require('2.0')
 	import gtk
-	OPT['PYGTK_MODULE'] = True
+	o.setopt('PYGTK_MODULE', True)
 except:
-	OPT['PYGTK_MODULE'] = False
-
-def ogetopt(optname):
-	return OPT[optname]
-
-def osetopt(optname, value):
-	OPT[optname] = value
-
-def DBG(msg, code = 0):
-	if OPT['VERBOSE_OUTPUT']:
-		print {
-			0: "INFO: %s" % msg,
-			1: "WARN: %s" % msg,
-			2: "Error: %s" % msg
-		}[code]
+	o.setopt('PYGTK_MODULE', False)
 
 class clipB:
 	def __init__(self):
@@ -47,49 +24,9 @@ class clipB:
 		self.cb.store()
 
 def copyToClipB(text):
-	if OPT['PYGTK_MODULE'] == False:
+	if not o.getopt('PYGTK_MODULE'):
 		return False
 	else:
 		cb = clipB()
 		cb.send_text(text)
 		return True
-
-## cURL class
-class cURL:
-	def __init__(self, url):
-		self.URL = url
-		self.cp = pycurl.Curl()
-		## progressbar
-		pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#', left='[', right=']'), ' ', ETA(), ' ', FileTransferSpeed()]
-		self.pb = ProgressBar(widgets=pyih_widget, maxval=100)
-
-	def progress(self, dt, dd, ut, ud):
-		percent = ut / 100;
-		current = (ud != 0) and int(ud / percent) or 1
-		if not current == self.pb.percentage():
-			self.pb.update(current)
-
-	def getXML(self, POST):
-		self.cp.setopt(self.cp.POST, 1)
-		self.cp.setopt(self.cp.HTTPPOST, POST)
-		self.cp.setopt(self.cp.URL, self.URL)
-
-		#header = StringIO()
-		#self.cp.setopt(self.cp.HEADERFUNCTION, header.write)
-		
-		result = StringIO()
-		self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
-		if OPT['VERBOSE_OUTPUT']:
-			self.cp.setopt(self.cp.VERBOSE, 1)
-			self.cp.setopt(self.cp.DEBUGFUNCTION, self.debug)
-		elif not OPT['ONLY_PRINT_URL'] or OPT['ONLY_PRINT_THB'] or OPT['VERBOSE_OUTPUT']:
-			self.pb.start()
-			self.cp.setopt(self.cp.NOPROGRESS, 0)
-			self.cp.setopt(self.cp.PROGRESSFUNCTION, self.progress)
-		
-		self.cp.perform()
-		
-		return result.getvalue()
-
-	def debug(self, dtype, dmsg):
-		sys.stdout.write("PycURL: (%d): %s" % (dtype, dmsg))
