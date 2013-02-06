@@ -46,8 +46,6 @@ class PyIH:
             self.isopts.append(('CURL_PROGRESSBAR', True))
 
         self.isopts.append(('API_KEY', o.getopt('IMAGESHACK_KEY')))
-        print self.o.getopts()
-        print self.isopts
 
     def _show_help(self, quit = True, code = 1):
         if quit == True:
@@ -98,7 +96,6 @@ class PyIH:
             if not os.path.isfile(a):
                 print _("Error: File not found: %1s  Ignoring...") % a
             else:
-                print("Queuing %s" % a)
                 self.isup.queue(a)
 
     def send(self):
