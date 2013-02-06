@@ -1,7 +1,7 @@
 PyIH-Uploader
 =============
 
-PyIH-Uploader (Python ImagesHack Uploader) is small python2 program to upload images to imageshack, only nescessary an API key.
+PyIH-Uploader (Python ImagesHack Uploader) is small python2 program to upload images to imageshack.
 
 Usage, and options:
 <pre>
