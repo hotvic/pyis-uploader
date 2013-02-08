@@ -4,20 +4,20 @@ from config import O
 from isup import ISup
 
 ## 
-#* This file is part of PyIH-Upload, licensed
-#* under GNU GPL at version 2 or any other version.
+#* This file is part of PyIS-Upload, licensed
+#* under GNU GPL at version 3 or any other version.
 ##
 
 
 ## Constants
 IMAGESHACK_URL   = "https://post.imageshack.us/upload_api.php"
-VERSION          = "PyIH-uploader version: 0.2"
+VERSION          = "PyIS-uploader version: 0.2"
 
 # Install gettext
 if os.path.isdir(os.path.join(os.getcwd(), "locale")):
-    gettext.install("pyih-uploader", os.path.join(os.getcwd(), "locale"), unicode=1)
+    gettext.install("pyis-uploader", os.path.join(os.getcwd(), "locale"), unicode=1)
 else:
-    gettext.install("pyih-uploader", unicode=1)
+    gettext.install("pyis-uploader", unicode=1)
 # End gettext
 
 # config

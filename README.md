@@ -1,16 +1,16 @@
-PyIH-Uploader
+PyIS-Uploader
 =============
 
-PyIH-Uploader (Python ImagesHack Uploader) is small python2 program to upload images to imageshack.
+PyIS-Uploader (Python ImageShack Uploader) is small python2 program to upload images to ImageShack.
 
 Usage, and options:
 <pre>
-pyih-uploader --help
+pyis-uploader --help
 </pre>
 
 Installation:
 
-<a href="https://github.com/hotvic/pyih-uploader/wiki/Installation">Installation</a>
+<a href="https://github.com/hotvic/pyis-uploader/wiki/Installation">Installation</a>
 
 Copyright © 2012 - 2013 - Victor Aurélio Santos
 

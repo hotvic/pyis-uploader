@@ -1,3 +1,8 @@
+## 
+#* This file is part of PyIS-Upload, licensed
+#* under GNU GPL at version 3 or any other version.
+##
+
 class O:
 	def __init__(self):
 		self.opts = {

@@ -1,4 +1,11 @@
-## Setup script to pyih-uploader
+#!/bin/sh
+
+## Setup script to PyIS-Uploader
+
+## 
+#* This file is part of PyIS-Upload, licensed
+#* under GNU GPL at version 3 or any other version.
+##
 
 msg2(){
 	echo -e "\033[32m==>\033[0m $1"
@@ -33,15 +40,15 @@ install_app(){
 	if [ ! -d $DESTDIR/lib/ ]; then
 		install -d $DESTDIR/lib/pyih-uploader
 	fi
-	msg3 "Installing $DESTDIR/bin/pyih-uploader ..."
-	echo "#!/bin/sh" > $DESTDIR/bin/pyih-uploader
-	echo "cd $DESTDIR/lib/pyih-uploader/" >> $DESTDIR/bin/pyih-uploader
-	echo 'python2 pyih-uploader.py $@' >> $DESTDIR/bin/pyih-uploader
-	chmod 755 $DESTDIR/bin/pyih-uploader
-	msg3 "Installing $DESTDIR/lib/pyih-uploader/pyih-uploader.py ..."
-	install -Dm=644 pyih-uploader.py $DESTDIR/lib/pyih-uploader/pyih-uploader.py || error
-	msg3 "Installing $DESTDIR/lib/pyih-uploader/utils.py ..."
-	install -Dm=644 utils.py $DESTDIR/lib/pyih-uploader/utils.py || error
+	msg3 "Installing $DESTDIR/bin/pyis-uploader ..."
+	echo "#!/bin/sh" > $DESTDIR/bin/pyis-uploader
+	echo "cd $DESTDIR/lib/pyis-uploader/" >> $DESTDIR/bin/pyis-uploader
+	echo 'python2 pyis-uploader.py $@' >> $DESTDIR/bin/pyis-uploader
+	chmod 755 $DESTDIR/bin/pyis-uploader
+	msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis-uploader.py ..."
+	install -Dm=644 pyis-uploader.py $DESTDIR/lib/pyis-uploader/pyis-uploader.py || error
+	msg3 "Installing $DESTDIR/lib/pyis-uploader/utils.py ..."
+	install -Dm=644 utils.py $DESTDIR/lib/pyis-uploader/utils.py || error
 
 	## Install locale
 
@@ -49,11 +56,11 @@ install_app(){
 		install -d $DESTDIR/share/locale
 	fi
 	for dir in $(ls locale); do
-		msg3 "Installing $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo ..."
+		msg3 "Installing $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
 		if [ ! -d $DESTDIR/share/locale/${dir}/LC_MESSAGES/ ]; then
 			install -d $DESTDIR/share/locale/${dir}/LC_MESSAGES/
 		fi
-		install locale/${dir}/LC_MESSAGES/pyih-uploader.mo $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo || error
+		install locale/${dir}/LC_MESSAGES/pyis-uploader.mo $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo || error
 	done
 
 	## Install man page
@@ -61,8 +68,8 @@ install_app(){
 	if [ ! -d $DESTDIR/share/man/man1 ]; then
 		install -d $DESTDIR/share/man/man1
 	fi
-	install -m 0644 docs/pyih-uploader.1 $DESTDIR/share/man/man1/ || error
-	gzip $DESTDIR/share/man/man1/pyih-uploader.1 || error
+	install -m 0644 docs/pyis-uploader.1 $DESTDIR/share/man/man1/ || error
+	gzip $DESTDIR/share/man/man1/pyis-uploader.1 || error
 
 	msg2 "Installation successfully"
 }
@@ -82,21 +89,21 @@ uninstall_app(){
 	msg2 "Uninstalling..."
 	## uninstall executable
 
-	if [ -f $DESTDIR/bin/pyih-uploader ]; then
-		msg3 "Uninstalling $DESTDIR/bin/pyih-uploader ..."
-		rm $DESTDIR/bin/pyih-uploader
+	if [ -f $DESTDIR/bin/pyis-uploader ]; then
+		msg3 "Uninstalling $DESTDIR/bin/pyis-uploader ..."
+		rm $DESTDIR/bin/pyis-uploader
 	else
-		msg3 "Warning: Unable to find $DESTDIR/bin/pyih-uploader, ignoring..."
+		msg3 "Warning: Unable to find $DESTDIR/bin/pyis-uploader, ignoring..."
 	fi
 
 	## Uninstall locale
 
 	for dir in $(ls locale); do
-		msg3 "Uninstalling $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo ..."
-		if [ -f $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo ];then
-			rm $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo
+		msg3 "Uninstalling $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
+		if [ -f $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ];then
+			rm $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo
 		else
-			msg3 "Warning: Unable to find $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyih-uploader.mo, ignoring..."
+			msg3 "Warning: Unable to find $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
 		fi
 	done
 
@@ -127,6 +134,9 @@ Options:
 		elif [[ $i = "uninstall" ]]; then
 			msg2 "Using $PREFIX as prefix..."
 			uninstall_app $PREFIX
+		else
+		    msg3 "Unknown command or option: $i"
+		    error
 		fi
 	done
 }

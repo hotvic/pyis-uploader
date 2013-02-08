@@ -4,8 +4,8 @@ from HTMLParser import HTMLParser
 from progressbar import *
 
 ## 
-#* This file is part of PyIH-Upload, licensed
-#* under GNU GPL at version 2 or any other version.
+#* This file is part of PyIS-Upload, licensed
+#* under GNU GPL at version 3 or any other version.
 ##
 
 class ISupError(Exception):

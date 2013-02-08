@@ -1,0 +1,44 @@
+.\" Manpage for pyis-uploader.
+.\" Contact victoraur.santos@gmail.com to correct errors or typos.
+.TH "man" "1" "25 Jan 2013" "Victor Aurélio" "network"
+.SH "NAME"
+PyIS\-Uploader \- upload images to ImageShack
+.SH "SYNOPSIS"
+pyis\-uploader [options] image_name
+.SH "DESCRIPTION"
+PyIS\-Uploader is a powerful tool written in python that uses PycURL to send image files to ImageShack, a great site for file shares images.
+.SH "OPTIONS"
+.TP 
+\fB\-P\fR, \fB\-\-pass\fR password
+Specify password to upload image to your account (need \-U)
+.TP 
+\fB\-U\fR, \fB\-\-user\fR username
+Specify username to upload image to your account (need \-P)
+.TP 
+\fB\-c\fR, \fB\-\-cookie\fR cookie
+Specify cookie(Registration code) to upload image to your account (conflicts with \-P or \-U)
+.TP 
+\fB\-r\fR, \fB\-\-resize\fR Width\fBx\fRHeight
+Resize image, e.g: 1024x768, 800x600
+.TP 
+\fB\-K\fR, \fB\-\-clipboard\fR
+Send URL of uploaded image to clipboard, if with \-t send image thumbnail URL to clipboard
+.TP 
+\fB\-t\fR, \fB\-\-thb\-only\fR
+Only print url of uploaded image(Thumbnail), useful to use with utils like xclip
+.TP 
+\fB\-u\fR, \fB\-\-url\-only\fR
+Only print url of uploaded image(Full), useful to use with utilities like xclip
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR 
+Show debug messages, useful for bug report
+.TP 
+\fB\-v\fR, \fB\-\-version\fR
+Show program version and exit
+.TP 
+\fB\-h\fR, \fB\-\-help\fR
+Show help message and exit
+.SH "BUGS"
+No known bugs.
+.SH "AUTHOR"
+Victor Aurélio <victoraur.santos@gmail.com>
