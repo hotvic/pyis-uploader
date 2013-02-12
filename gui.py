@@ -1,6 +1,27 @@
+# -*- coding: UTF-8 -*-
+
+from __future__ import division
 from gtk import *
 from gtk.gdk import Pixbuf, pixbuf_new_from_file_at_size
+from threading import Thread
+from isup import ISup
 
+LICENSE = """
+Copyright © 2013 Victor Aurélio <victoraur.santos@gmail.com>
+
+PyIS-Uploader GUI is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+PyIS-Uploader GUI is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 class PreferencesDialog(Dialog):
     def __init__(self):
@@ -36,13 +57,13 @@ class PreferencesDialog(Dialog):
         
         luser = Label("Username:")
         lpass = Label("Password:")
-        tuser = Entry()
-        tpass = Entry()
+        self._tuser = Entry()
+        self._tpass = Entry()
         
         huser.pack_start(luser)
-        huser.pack_end(tuser)
+        huser.pack_end(self._tuser)
         hpass.pack_start(lpass)
-        hpass.pack_end(tpass)
+        hpass.pack_end(self._tpass)
         vbox.pack_start(huser)
         vbox.pack_end(hpass)
         
@@ -50,8 +71,11 @@ class PreferencesDialog(Dialog):
     def show(self):
         self.show_all()
         return self.run()
-
-class MainWindow():
+    def get_acc_user(self):
+        return self._tuser.get_text()
+    def set_acc_user(self, value):
+        self._tuser.set_text(value)
+class MainWindow(object):
     def __init__(self):
         self._mw = Window()
         self._vbox = VBox()
@@ -246,6 +270,55 @@ class MainWindow():
             
             self._filelist.insert(path[0], self._filelist.pop(c[0][0]))
     def _cb_apply(self, button):
-        print self._filelist
+        options = [('API_KEY' ,'47DHIJMSe847793024d16f9db3e6f7b0d31389cc')]#, ('CURL_VERBOSE', True)]
+        isup = ISup("https://post.imageshack.us/upload_api.php", options)
+        
+        while len(self._filelist) != 0:
+            self._SBItens[0][0].set_text(self._filelist[0])
+            
+            isup.queue(self._filelist[0])
+            
+            Result = isup.upload(self._on_progress)
+            self._on_upload_finish(Result[0])
+            
+            ## Remove uploaded itens
+            self._filelist.pop(0)
+            model = self._iv.get_model()
+            it = model.get_iter((0,))
+            self._ls.remove(it)
+    def _on_upload_finish(self, details):
+        rdlg = Dialog("Uploaded", buttons=(STOCK_CLOSE, RESPONSE_CLOSE))
+        vbox = rdlg.get_content_area()
+        lurl = Label("Full Image Link:")
+        eurl = Entry()
+        eurl.set_text(details['LNK_FULL'])
+        
+        vbox.pack_start(lurl)
+        vbox.pack_start(eurl)
+        
+        rdlg.show_all()
+        rdlg.run()
+        rdlg.destroy()
+    def _on_progress(self, dt, dd, ut, ud):
+        current = (ud != 0) and int(ud / ut * 100) or 1
+        current /= 100
+        
+        if not current == self._SBItens[0][0].get_fraction():
+            self._SBItens[0][0].set_fraction(current)
+            while events_pending():
+                main_iteration()
+        
     def _cb_about(self, button):
-        pass
+        about = AboutDialog()
+        
+        about.set_program_name("PyIS-Uploader GUI")
+        about.set_version("0.1.0 Alpha")
+        about.set_copyright("Copyright © 2013 - Victor Aurélio")
+        about.set_comments("PyIS-Uploader is a GUI(Graphical User Interface) for PyIS-Uploader, Written in Python and PyGTK.\n\nPyIS-Uploader is a powerful tool written in python that uses PycURL to send image files to ImageShack, a great site for file shares images.")
+        about.set_license(LICENSE)
+        about.set_website("https://github.com/hotvic/pyis-uploader-gui/")
+        about.set_website_label("Home Page on GitHub")
+        about.set_authors("Victor Aurélio <victoraur.santos@gmail.com>")
+        
+        about.run()
+        about.destroy()
