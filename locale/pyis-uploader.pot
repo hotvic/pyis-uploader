@@ -1,7 +1,7 @@
 # PyIS-Uploader.
-# Copyright © 2012 - 2013 - Victor Aurélio
+# Copyright © 2012-2013 - Victor Aurélio
 # This file is distributed under the same license as the PyIS-Uploader package.
-# Victor Aurélio <victoraur.santos@gmail.com>, 2012 - 2013.
+# Victor Aurélio <victoraur.santos@gmail.com>, 2012-2013.
 #
 #, fuzzy
 msgid ""
@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: PyIS-Uploader 0.2\n"
 "Report-Msgid-Bugs-To: Victor Aurélio <victoraur.santos@gmail.com>\n"
 "POT-Creation-Date: 2013-02-13 16:56-0300\n"
-"PO-Revision-Date: 2013-02-13 17:06-0300\n"
-"Last-Translator: Victor Aurélio <victoraur.santos@gmail.com>\n"
-"Language-Team: Victor Aurélio <victoraur.santos@gmail.com>\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: pyis-uploader.py:24
@@ -34,20 +34,8 @@ msgid ""
 "  -V|--version    :       Show script version and exit\n"
 "  -h|--help       :       Show this help message"
 msgstr ""
-"Uso: pyih-uploader [opções] nome_do_arquivo\n"
-"Opções:\n"
-"  -P|--pass pass  :      Sua senha (Envia para sua conta, sem cookie)\n"
-"  -U|--user user  :      Seu usuário (Envia para sua conta, sem cookie)\n"
-"  -c|--cookie id  :      Usar Código de Registro (Envia para sua conta)\n"
-"  -r|--resize WxH :      Redimensionar imagem\n"
-"  -K|--clipboard  :      Enviar URl da imagem para Área de Transferência\n"
-"  -t|--thb-only   :      Somente mostra a URL da imagem (Miniatura)\n"
-"  -u|--url-only   :      Somente mostra a URL da imagem (Completa)\n"
-"  -v|--verbose    :      Exibir mensagens de depuração\n"
-"  -V|--version    :      Exibir a versão do programa e sair\n"
-"  -h|--help       :      Exibir essa ajuda e sair"
 
-#: pyis-uploader.py:38
+#: pyis-uploader.py:37
 #, python-format
 msgid ""
 "Uploader:\n"
@@ -61,18 +49,8 @@ msgid ""
 "  Original image: %(URL)s\n"
 "  Thumbnail image: %(URL_THMB)s"
 msgstr ""
-"Quem Enviou:\n"
-"  IP: %(IP)s\n"
-"  Usuário: %(USER)s\n"
-"  Cookie: %(COOKIE)s\n"
-"Resolução:\n"
-"  Largura: %(WIDTH)s\n"
-"  Altura: %(HEIGHT)s\n"
-"Links:\n"
-"  Imagem Original: %(URL)s\n"
-"  Imagem Miniatura: %(URL_THMB)s"
 
-#: pyis-uploader.py:124
+#: pyis-uploader.py:122
 #, python-format
 msgid "Error: File not found: %(name)s  Ignoring..."
-msgstr "Erro: %(name)s: Arquivo não encontrado, Ignorando..."
+msgstr ""

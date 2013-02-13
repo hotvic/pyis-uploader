@@ -20,11 +20,37 @@ else:
     gettext.install("pyis-uploader", unicode=1)
 # End gettext
 
+## Messages
+HELP = _("""\
+Usage: pyih-uploader [options] img_1_name [...] [img_N_name]
+Options:
+  -P|--pass pass  :       Your password (upload to your account, without cookie)
+  -U|--user user  :       Your username (upload to your account, without cookie)
+  -c|--cookie id  :       Use Registration code (upload to your account)
+  -r|--resize WxH :       Resize image
+  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)
+  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
+  -u|--url-only   :       Only output the uploaded image url
+  -v|--verbose    :       Show debug messages
+  -V|--version    :       Show script version and exit
+  -h|--help       :       Show this help message""")
+UP_DETAILS = _("""\
+Uploader:
+  IP: %(IP)s
+  User: %(USER)s
+  Cookie: %(COOKIE)s
+Resolution:
+  Width: %(WIDTH)s
+  Height: %(HEIGHT)s
+Links:
+  Original image: %(URL)s
+  Thumbnail image: %(URL_THMB)s""")
+
 # config
 o = O()
 # End config
 
-class PyIH:
+class PyIS:
     def __init__(self):
         self.o = O()
         self.isopts = []
@@ -49,15 +75,14 @@ class PyIH:
 
     def _show_help(self, quit = True, code = 1):
         if quit == True:
-            print _("HELPMSG")
+            print HELP
             exit(code)
         else:
-            print _("HELPMSG")
+            print HELP
 
     def pass_args(self):
         if len(sys.argv) <= 1:
             self._show_help()
-
         try:
             sopt = "P:U:c:r:KtufvVh"
             lopt = "pass= user= cookie= resize= clipboard thb-only url-only full-details verbose version help".split()
@@ -94,7 +119,7 @@ class PyIH:
         self._isup(self.isopts)
         for a in args:
             if not os.path.isfile(a):
-                print _("Error: File not found: %1s  Ignoring...") % a
+                print _("Error: File not found: %(name)s  Ignoring...") % a
             else:
                 self.isup.queue(a)
 
@@ -121,13 +146,20 @@ class PyIH:
 
 
     def _printfull(self, details):
-        print _("UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s") % (details['UP_IP'], details['UP_US'], details['UP_CK'], details['width'], details['height'], details['LNK_FULL'], details['LNK_THMB'])
+        print UP_DETAILS % {
+                'IP': details['UP_IP'],
+                'USER': details['UP_US'],
+                'COOKIE': details['UP_CK'],
+                'WIDTH': details['width'],
+                'HEIGHT': details['height'],
+                'URL': details['LNK_FULL'],
+                'URL_THMB': details['LNK_THMB']}
     def _printURL(self, details):
         print details['LNK_FULL']
     def _printTHMB(self, details):
         print details['LNK_THMB']
 
 if __name__ == "__main__":
-    pyih = PyIH()
-    pyih.pass_args()
-    pyih.send()
+    pyis = PyIS()
+    pyis.pass_args()
+    pyis.send()
