@@ -1,5 +1,5 @@
 # PyIS-Uploader.
-# Copyright (C) 2012-2013 - Victor Aurélio
+# Copyright © 2012-2013 - Victor Aurélio
 # This file is distributed under the same license as the PyIS-Uploader package.
 # Victor Aurélio <victoraur.santos@gmail.com>, 2012-2013.
 #
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyIS-Uploader 0.2\n"
 "Report-Msgid-Bugs-To: Victor Aurélio <victoraur.santos@gmail.com>\n"
-"POT-Creation-Date: 2012-12-27 20:42-0300\n"
-"PO-Revision-Date: 2013-01-25 15:30-0300\n"
+"POT-Creation-Date: 2013-02-13 16:56-0300\n"
+"PO-Revision-Date: 2013-02-15 15:30-0300\n"
 "Last-Translator: Victor Aurélio <victoraur.santos@gmail.com>\n"
 "Language-Team: Victor Aurélio <victoraur.santos@gmail.com>\n"
 "Language: en\n"
@@ -17,13 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pyih-uploader.py:25 pyih-uploader.py:29
-msgid "HELPMSG"
-msgstr ""
-"Usage: pyih-uploader [options] filename\n"
+#: pyis-uploader.py:24
+msgid ""
+"Usage: pyih-uploader [options] img_1_name [...] [img_N_name]\n"
 "Options:\n"
-"  -P|--pass pass  :       Your password (upload to your account, without cookie)\n"
-"  -U|--user user  :       Your username (upload to your account, without cookie)\n"
+"  -P|--pass pass  :       Your password (upload to your account, without "
+"cookie)\n"
+"  -U|--user user  :       Your username (upload to your account, without "
+"cookie)\n"
+"  -c|--cookie id  :       Use Registration code (upload to your account)\n"
+"  -r|--resize WxH :       Resize image\n"
+"  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)\n"
+"  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)\n"
+"  -u|--url-only   :       Only output the uploaded image url\n"
+"  -v|--verbose    :       Show debug messages\n"
+"  -V|--version    :       Show script version and exit\n"
+"  -h|--help       :       Show this help message"
+msgstr ""
+"Usage: pyih-uploader [options] img_1_name [...] [img_N_name]\n"
+"Options:\n"
+"  -P|--pass pass  :       Your password (upload to your account, without "
+"cookie)\n"
+"  -U|--user user  :       Your username (upload to your account, without "
+"cookie)\n"
 "  -c|--cookie id  :       Use Registration code (upload to your account)\n"
 "  -r|--resize WxH :       Resize image\n"
 "  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)\n"
@@ -33,48 +49,32 @@ msgstr ""
 "  -V|--version    :       Show script version and exit\n"
 "  -h|--help       :       Show this help message"
 
-#: pyih-uploader.py:38
-msgid "Missing Password"
-msgstr "You must specify an password (-P|--pass)"
-
-#: pyih-uploader.py:41
-msgid "Missing Username"
-msgstr "You must specify an username (-U|--user)"
-
-#: pyih-uploader.py:54
-msgid "Open File Error"
-msgstr "Error while opening file to read, file exists ?"
-
-#: pyih-uploader.py:63
-msgid "XML Parse Error"
-msgstr "Error, Try Again!"
-
-#: pyih-uploader.py:101 pyih-uploader.py:108 pyih-uploader.py:124
-msgid "You need PyGTK to send to clipboard"
-msgstr "You need PyGTK to send to clipboard"
-
-#: pyih-uploader.py:112
-msgid "UPLOAD_DETAILS: %1s %2s %3s %4s %5s %6s %7s"
+#: pyis-uploader.py:37
+#, python-format
+msgid ""
+"Uploader:\n"
+"  IP: %(IP)s\n"
+"  User: %(USER)s\n"
+"  Cookie: %(COOKIE)s\n"
+"Resolution:\n"
+"  Width: %(WIDTH)s\n"
+"  Height: %(HEIGHT)s\n"
+"Links:\n"
+"  Original image: %(URL)s\n"
+"  Thumbnail image: %(URL_THMB)s"
 msgstr ""
 "Uploader:\n"
-"  IP: %1s\n"
-"  User: %2s\n"
-"  Cookie: %3s\n"
+"  IP: %(IP)s\n"
+"  User: %(USER)s\n"
+"  Cookie: %(COOKIE)s\n"
 "Resolution:\n"
-"  Width: %4s\n"
-"  Height: %5s\n"
+"  Width: %(WIDTH)s\n"
+"  Height: %(HEIGHT)s\n"
 "Links:\n"
-"  Original image: %6s\n"
-"  Thumbnail image: %7s"
+"  Original image: %(URL)s\n"
+"  Thumbnail image: %(URL_THMB)s"
 
-#: pyih-uploader.py:121
-msgid "(Warning: Your upload saved on account of PyIHUploader)"
-msgstr "(Warning: Your upload saved on account of PyIHUploader)"
-
-#: pyih-uploader.py:158
-msgid "Error: File not found: %1s"
-msgstr "Error: File not found: %1s"
-
-#: pyih-uploader.py:162
-msgid "Error: Please specify file name"
-msgstr "Error: Please specify file name"
+#: pyis-uploader.py:122
+#, python-format
+msgid "Error: File not found: %(name)s  Ignoring..."
+msgstr "Error: File not found: %(name)s  Ignoring..."

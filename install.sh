@@ -59,12 +59,12 @@ install_app(){
     if [ ! -d $DESTDIR/share/locale ];then
         install -d $DESTDIR/share/locale
     fi
-    for dir in $(ls locale); do
-        msg3 "Installing $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ ! -d $DESTDIR/share/locale/${dir}/LC_MESSAGES/ ]; then
-            install -d $DESTDIR/share/locale/${dir}/LC_MESSAGES/
+    for dir in $(find locale/* -maxdepth 0 -type d); do
+        msg3 "Installing $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ ! -d $DESTDIR/share/${dir}/LC_MESSAGES/ ]; then
+            install -d $DESTDIR/share/${dir}/LC_MESSAGES/
     fi
-        install locale/${dir}/LC_MESSAGES/pyis-uploader.mo $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo || error
+        install ${dir}/LC_MESSAGES/pyis-uploader.mo $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo || error
     done
 
     ## Install man page
@@ -102,12 +102,12 @@ uninstall_app(){
 
     ## Uninstall locale
 
-    for dir in $(ls locale); do
-        msg3 "Uninstalling $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ -f $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo ];then
-            rm $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo
+    for dir in $(find locale/* -maxdepth 0 -type d); do
+        msg3 "Uninstalling $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ -f $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ];then
+            rm $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo
         else
-            msg3 "Warning: Unable to find $DESTDIR/share/locale/${dir}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
+            msg3 "Warning: Unable to find $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
         fi
     done
 
