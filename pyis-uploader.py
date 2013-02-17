@@ -119,7 +119,7 @@ class PyIS:
         self._isup(self.isopts)
         for a in args:
             if not os.path.isfile(a):
-                print _("Error: File not found: %(name)s  Ignoring...") % a
+                print _("Error: File not found: %(name)s  Ignoring...") % {'name': a}
             else:
                 self.isup.queue(a)
 
