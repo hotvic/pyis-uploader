@@ -7,6 +7,8 @@
 #* under GNU GPL at version 3 or any other(at you preference) version.
 ##
 
+LOCALES="en es pt_BR"
+
 msg2(){
     echo -e "\033[32m==>\033[0m $1"
 }
@@ -17,6 +19,22 @@ msg3(){
 error(){
     echo "Error, exiting..."
     exit 1
+}
+
+compileLocale(){
+	msg2 "Compiling locale..."
+
+	if [ ! -d .temp ]; then
+		mkdir .temp
+	fi
+	cd .temp
+	for loc in $LOCALES; do
+		msg3 "Compiling locale '$loc'..."
+		msgfmt -o ${loc}.mo ../locale/${loc}.po
+	done
+
+	cd ..
+	msg2 "Locale compiled!"
 }
 
 install_app(){
@@ -56,15 +74,16 @@ install_app(){
 
     ## Install locale
 
-    if [ ! -d $DESTDIR/share/locale ];then
+	compileLocale
+    if [ ! -d $DESTDIR/share/locale ]; then
         install -d $DESTDIR/share/locale
     fi
-    for dir in $(find locale/* -maxdepth 0 -type d); do
-        msg3 "Installing $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ ! -d $DESTDIR/share/${dir}/LC_MESSAGES/ ]; then
-            install -d $DESTDIR/share/${dir}/LC_MESSAGES/
+    for loc in $LOCALES; do
+        msg3 "Installing $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ ! -d $DESTDIR/share/${loc}/LC_MESSAGES/ ]; then
+            install -d $DESTDIR/share/${loc}/LC_MESSAGES/
     fi
-        install ${dir}/LC_MESSAGES/pyis-uploader.mo $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo || error
+        install .temp/${loc}.mo $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo || error
     done
 
     ## Install man page
@@ -75,6 +94,7 @@ install_app(){
     install -m 0644 docs/pyis-uploader.1 $DESTDIR/share/man/man1/ || error
     gzip $DESTDIR/share/man/man1/pyis-uploader.1 || error
 
+	rm -rf .temp
     msg2 "Installation successfully"
 }
 
@@ -105,12 +125,12 @@ uninstall_app(){
     
     ## Uninstall locale
 
-    for dir in $(find locale/* -maxdepth 0 -type d); do
-        msg3 "Uninstalling $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ -f $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo ];then
-            rm $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo
+    for loc in $LOCALES; do
+        msg3 "Uninstalling $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ -f $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ];then
+            rm $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo
         else
-            msg3 "Warning: Unable to find $DESTDIR/share/${dir}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
+            msg3 "Warning: Unable to find $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
         fi
     done
 
@@ -148,4 +168,8 @@ Commands:
     done
 }
 
-passArgs $@
+if [ $# -gt 1 ]; then 
+	passArgs $@
+else
+	passArgs '--help'
+fi

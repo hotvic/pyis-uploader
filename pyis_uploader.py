@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 #!/usr/bin/env python2
-import sys, getopt, os, gettext
+import sys, os, getopt, gettext
 from config import O
 from isup import ISup
 
@@ -22,21 +22,17 @@ You should have received a copy of the GNU General Public License along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-
 ## Constants
-IMAGESHACK_URL   = "https://post.imageshack.us/upload_api.php"
-VERSION          = "PyIS-uploader version: 0.2"
+IMAGESHACK_URL = "https://post.imageshack.us/upload_api.php"
+VERSION        = "PyIS-uploader version: 0.2"
 
 # Install gettext
-if os.path.isdir(os.path.join(os.getcwd(), "locale")):
-    gettext.install("pyis-uploader", os.path.join(os.getcwd(), "locale"), unicode=1)
-else:
-    gettext.install("pyis-uploader", unicode=1)
+gettext.install("pyis-uploader", unicode=1)
 # End gettext
 
 ## Messages
 HELP = _("""\
-Usage: pyih-uploader [options] img_1_name [...] [img_N_name]
+Usage: pyis-uploader [options] img_1_name [...] [img_N_name]
 Options:
   -P|--pass pass  :       Your password (upload to your account, without cookie)
   -U|--user user  :       Your username (upload to your account, without cookie)
@@ -113,6 +109,9 @@ class PyIS:
         for o, a in opts:
             if o in ("-h", "--help"):
                 self._show_help(True, 0)
+            elif o in ("--license"):
+                print LICENSE
+                exit(0)
             elif o in ("-V", "--version"):
                 print VERSION
                 exit(0)
@@ -164,11 +163,12 @@ class PyIS:
                 for d in self.details:
                     self._printURL(d)
 
-
     def _printfull(self, details):
         print UP_DETAILS % details
+
     def _printURL(self, details):
         print details['LNK_FULL']
+
     def _printTHMB(self, details):
         print details['LNK_THMB']
 
