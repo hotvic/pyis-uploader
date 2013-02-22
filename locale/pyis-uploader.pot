@@ -32,7 +32,8 @@ msgid ""
 "  -u|--url-only   :       Only output the uploaded image url\n"
 "  -v|--verbose    :       Show debug messages\n"
 "  -V|--version    :       Show script version and exit\n"
-"  -h|--help       :       Show this help message"
+"  -h|--help       :       Show this help message\n"
+"  --license       :       Show program license"
 msgstr ""
 
 #: pyis-uploader.py:37
@@ -47,7 +48,11 @@ msgid ""
 "  Height: %(HEIGHT)s\n"
 "Links:\n"
 "  Original image: %(URL)s\n"
-"  Thumbnail image: %(URL_THMB)s"
+"  Thumbnail image: %(URL_THMB)s\n"
+"Codes:\n"
+"  Thumbnail:\n"
+"    HTML: %(CODE_H_THMB)s\n"
+"    BBCode: %(CODE_BB_THMB)s"
 msgstr ""
 
 #: pyis-uploader.py:122

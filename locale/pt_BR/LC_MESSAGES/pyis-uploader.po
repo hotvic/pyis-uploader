@@ -45,7 +45,8 @@ msgstr ""
 "  -u|--url-only   :      Somente mostra a URL da imagem (Completa)\n"
 "  -v|--verbose    :      Exibir mensagens de depuração\n"
 "  -V|--version    :      Exibir a versão do programa e sair\n"
-"  -h|--help       :      Exibir essa ajuda e sair"
+"  -h|--help       :      Exibir essa ajuda e sair\n"
+"  --license       :      Exibir a licensa do programa"
 
 #: pyis-uploader.py:37
 #, python-format

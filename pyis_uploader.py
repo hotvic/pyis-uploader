@@ -47,7 +47,8 @@ Options:
   -u|--url-only   :       Only output the uploaded image url
   -v|--verbose    :       Show debug messages
   -V|--version    :       Show script version and exit
-  -h|--help       :       Show this help message""")
+  -h|--help       :       Show this help message
+  --license       :       Show program license""")
 UP_DETAILS = _("""\
 Uploader:
   IP: %(IP)s
