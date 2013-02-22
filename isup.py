@@ -82,8 +82,10 @@ class ISup():
         self.Result['URL']          = result["links"]["image_link"]
         self.Result['CODE_BB_THMB'] = result["links"]["thumb_bb2"]
 
-        ## This is an workaround for this bug: http://code.google.com/p/imageshackapi/issues/detail?id=41
-        self.Result['URL_THMB'], self.Result['CODE_H_THMB'] = self._workaround(result["links"]["thumb_link"])
+        ## This is an workaround for this bug:
+        ## http://code.google.com/p/imageshackapi/issues/detail?id=41
+        self.Result['URL_THMB'], self.Result['CODE_H_THMB'] = \
+                                self._workaround(result["links"]["thumb_link"])
     def _workaround(self, html):
         wa = ParseWorkaround()
         wa.feed(html)
@@ -122,7 +124,9 @@ class cURL:
         self.URL = url
         self.cp = pycurl.Curl()
         ## progressbar
-        pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#', left='[', right=']'), ' ', ETA(), ' ', FileTransferSpeed("k")]
+        pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#',
+                                    left='[',right=']'), ' ', ETA(), ' ',
+                                    FileTransferSpeed("k")]
         self.pb = ProgressBar(widgets = pyih_widget, maxval = 100)
 
     def _progress(self, dt, dd, ut, ud):

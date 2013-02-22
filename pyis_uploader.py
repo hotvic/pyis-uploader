@@ -103,7 +103,8 @@ class PyIS:
             self._show_help()
         try:
             sopt = "P:U:c:r:KtufvVh"
-            lopt = "pass= user= cookie= resize= clipboard thb-only url-only full-details verbose version help".split()
+            lopt =  "pass= user= cookie= resize= clipboard thb-only \
+                    url-only full-details verbose version license help".split()
             opts, args = getopt.getopt(sys.argv[1:], sopt, lopt)
         except getopt.GetoptError as err:
             print str(err)

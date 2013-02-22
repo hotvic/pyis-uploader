@@ -43,10 +43,10 @@ install_app(){
     msg3 "Installing $DESTDIR/bin/pyis-uploader ..."
     echo "#!/bin/sh" > $DESTDIR/bin/pyis-uploader
     echo "cd $DESTDIR/lib/pyis-uploader/" >> $DESTDIR/bin/pyis-uploader
-    echo 'python2 pyis-uploader.py $@' >> $DESTDIR/bin/pyis-uploader
+    echo 'python2 pyis_uploader.py $@' >> $DESTDIR/bin/pyis-uploader
     chmod 755 $DESTDIR/bin/pyis-uploader
-    msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis-uploader.py ..."
-    install -Dm=644 pyis-uploader.py $DESTDIR/lib/pyis-uploader/pyis-uploader.py || error
+    msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis_uploader.py ..."
+    install -Dm=644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/utils.py ..."
     install -Dm=644 utils.py $DESTDIR/lib/pyis-uploader/utils.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/config.py ..."
@@ -100,6 +100,9 @@ uninstall_app(){
         msg3 "Warning: Unable to find $DESTDIR/bin/pyis-uploader, ignoring..."
     fi
 
+    ## Uninstall python files
+    rm -rf $DESTDIR/lib/pyis-uploader
+    
     ## Uninstall locale
 
     for dir in $(find locale/* -maxdepth 0 -type d); do
