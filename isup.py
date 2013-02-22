@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os, sys, pycurl, json
 from StringIO import StringIO
 from HTMLParser import HTMLParser
@@ -72,17 +73,18 @@ class ISup():
         ## if error in JSON json class raise
         result = json.loads(JSON)
 
-        self.Result['width']    = result["resolution"]["width"]
-        self.Result['height']   = result["resolution"]["height"]
-        self.Result['UP_VIS']   = result["visibility"]
-        self.Result['UP_IP']    = result["uploader"]["ip"]
-        self.Result['UP_CK']    = result["uploader"]["cookie"]
-        self.Result['UP_US']    = result["uploader"]["username"]
-        self.Result['LNK_FULL'] = result["links"]["image_link"]
+        self.Result['WIDTH']        = result["resolution"]["width"]
+        self.Result['HEIGHT']       = result["resolution"]["height"]
+        self.Result['UP_VIS']       = result["visibility"]
+        self.Result['IP']           = result["uploader"]["ip"]
+        self.Result['COOKIE']       = result["uploader"]["cookie"]
+        self.Result['USER']         = result["uploader"]["username"]
+        self.Result['URL']          = result["links"]["image_link"]
+        self.Result['CODE_BB_THMB'] = result["links"]["thumb_bb2"]
 
         ## This is an workaround for this bug: http://code.google.com/p/imageshackapi/issues/detail?id=41
-        self.Result['LNK_THMB'], self.Result['CODE_H_THB'] = self._wordaround(result["links"]["thumb_link"])
-    def _wordaround(self, html):
+        self.Result['URL_THMB'], self.Result['CODE_H_THMB'] = self._workaround(result["links"]["thumb_link"])
+    def _workaround(self, html):
         wa = ParseWorkaround()
         wa.feed(html)
 
@@ -120,7 +122,7 @@ class cURL:
         self.URL = url
         self.cp = pycurl.Curl()
         ## progressbar
-        pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#', left='[', right=']'), ' ', ETA(), ' ', FileTransferSpeed("K")]
+        pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#', left='[', right=']'), ' ', ETA(), ' ', FileTransferSpeed("k")]
         self.pb = ProgressBar(widgets = pyih_widget, maxval = 100)
 
     def _progress(self, dt, dd, ut, ud):

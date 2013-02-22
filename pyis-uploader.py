@@ -1,12 +1,26 @@
+# -*- coding: UTF-8 -*-
+
 #!/usr/bin/env python2
 import sys, getopt, os, gettext
 from config import O
 from isup import ISup
 
-## 
-#* This file is part of PyIS-Upload, licensed
-#* under GNU GPL at version 3 or any other version.
-##
+LICENSE = """
+Copyright © 2012-2013 Victor Aurélio <aurelio@archlinux.info>
+
+PyIS-Uploader is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+PyIS-Uploader is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 
 ## Constants
@@ -44,7 +58,11 @@ Resolution:
   Height: %(HEIGHT)s
 Links:
   Original image: %(URL)s
-  Thumbnail image: %(URL_THMB)s""")
+  Thumbnail image: %(URL_THMB)s
+Codes:
+  Thumbnail:
+    HTML: %(CODE_H_THMB)s
+    BBCode: %(CODE_BB_THMB)s""")
 
 # config
 o = O()
@@ -117,6 +135,7 @@ class PyIS:
 
         self._isopts()
         self._isup(self.isopts)
+        sys.path.append(os.getcwd())
         for a in args:
             if not os.path.isfile(a):
                 print _("Error: File not found: %(name)s  Ignoring...") % {'name': a}
@@ -144,16 +163,8 @@ class PyIS:
                     self._printURL(d)
 
 
-
     def _printfull(self, details):
-        print UP_DETAILS % {
-                'IP': details['UP_IP'],
-                'USER': details['UP_US'],
-                'COOKIE': details['UP_CK'],
-                'WIDTH': details['width'],
-                'HEIGHT': details['height'],
-                'URL': details['LNK_FULL'],
-                'URL_THMB': details['LNK_THMB']}
+        print UP_DETAILS % details
     def _printURL(self, details):
         print details['LNK_FULL']
     def _printTHMB(self, details):
