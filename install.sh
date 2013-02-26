@@ -60,8 +60,8 @@ install_app(){
     fi
     msg3 "Installing $DESTDIR/bin/pyis-uploader ..."
     echo "#!/bin/sh" > $DESTDIR/bin/pyis-uploader
-    echo "cd $DESTDIR/lib/pyis-uploader/" >> $DESTDIR/bin/pyis-uploader
-    echo 'python2 pyis_uploader.py $@' >> $DESTDIR/bin/pyis-uploader
+    echo "" >> $DESTDIR/bin/pyis-uploader
+    echo "python2 $DESTDIR/lib/pyis-uploader/pyis_uploader.py $@" >> $DESTDIR/bin/pyis-uploader
     chmod 755 $DESTDIR/bin/pyis-uploader
     msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis_uploader.py ..."
     install -Dm=644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
