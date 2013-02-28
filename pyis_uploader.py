@@ -167,10 +167,10 @@ class PyIS:
         print UP_DETAILS % details
 
     def _printURL(self, details):
-        print details['LNK_FULL']
+        print details['URL']
 
     def _printTHMB(self, details):
-        print details['LNK_THMB']
+        print details['URL_THMB']
 
 if __name__ == "__main__":
     pyis = PyIS()
