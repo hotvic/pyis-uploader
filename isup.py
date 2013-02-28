@@ -54,6 +54,8 @@ class ISup():
                 if o == "RESIZE_IMAGE":
                     self.Request.append(('optimage', 1))
                     self.Request.append(('optsize', a))
+                if o == "IMAGE_TAGS":
+                    self.Request.append(('tags', a))
                 elif o == "USER_USER":
                     self.Request.append(('a_username', a))
                 elif o == "USER_PASSWORD":

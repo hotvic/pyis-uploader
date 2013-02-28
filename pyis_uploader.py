@@ -24,7 +24,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Constants
 IMAGESHACK_URL = "https://post.imageshack.us/upload_api.php"
-VERSION        = "PyIS-uploader version: 0.2"
+VERSION        = "PyIS-Uploader version: 0.2"
 
 # Install gettext
 gettext.install("pyis-uploader", unicode=1)
@@ -38,6 +38,7 @@ Options:
   -U|--user user  :       Your username (upload to your account, without cookie)
   -c|--cookie id  :       Use Registration code (upload to your account)
   -r|--resize WxH :       Resize image
+  -t|--tags       :       Add tags to uploaded image
   -K|--clipboard  :       Send uploaded image url to clipboard(GTK)
   -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
   -u|--url-only   :       Only output the uploaded image url
@@ -99,8 +100,8 @@ class PyIS:
         if len(sys.argv) <= 1:
             self._show_help()
         try:
-            sopt = "P:U:c:r:KtufvVh"
-            lopt =  "pass= user= cookie= resize= clipboard thb-only \
+            sopt = "P:U:c:r:t:KtufvVh"
+            lopt =  "pass= user= cookie= resize= tags= clipboard thb-only \
                     url-only full-details verbose version license help".split()
             opts, args = getopt.getopt(sys.argv[1:], sopt, lopt)
         except getopt.GetoptError as err:
@@ -125,6 +126,8 @@ class PyIS:
                 self.o.setopt('PRINT_FULL_IN_M', True)
             elif o in ("-r", "--resize"):
                 self.o.setopt('RESIZE_IMAGE', a)
+            elif o in ("-t", "--tags"):
+                self.o.setopt('IMAGE_TAGS', a)
             elif o in ("-K", "--clipboard"):
                 self.o.setopt('SEND_CLIPBOARD', True)
             elif o in ("-U", "--user"):
