@@ -38,7 +38,7 @@ Options:
   -U|--user user  :       Your username (upload to your account, without cookie)
   -c|--cookie id  :       Use Registration code (upload to your account)
   -r|--resize WxH :       Resize image
-  -t|--tags       :       Add tags to uploaded image
+  -T|--tags       :       Add tags to uploaded image
   -K|--clipboard  :       Send uploaded image url to clipboard(GTK)
   -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
   -u|--url-only   :       Only output the uploaded image url
@@ -82,6 +82,8 @@ class PyIS:
             self.isopts.append(('USER_PASSWORD', self.o.getopt('USER_PASSWORD')))
         elif self.o.getopt('USER_COOKIE'):
             self.isopts.append(('USER_COOKIE', self.o.getopt('USER_COOKIE')))
+        elif self.o.getopt('IMAGE_TAGS'):
+            self.isopts.append(('IMAGE_TAGS', self.o.getopt('IMAGE_TAGS')))
         elif self.o.getopt('VERBOSE_OUTPUT'):
             self.isopts.append(('CURL_VERBOSE', True))
         elif self.o.getopt('ONLY_PRINT_URL') or self.o.getopt('ONLY_PRINT_THB'):
@@ -100,7 +102,7 @@ class PyIS:
         if len(sys.argv) <= 1:
             self._show_help()
         try:
-            sopt = "P:U:c:r:t:KtufvVh"
+            sopt = "P:U:c:r:T:KtufvVh"
             lopt =  "pass= user= cookie= resize= tags= clipboard thb-only \
                     url-only full-details verbose version license help".split()
             opts, args = getopt.getopt(sys.argv[1:], sopt, lopt)
@@ -126,7 +128,7 @@ class PyIS:
                 self.o.setopt('PRINT_FULL_IN_M', True)
             elif o in ("-r", "--resize"):
                 self.o.setopt('RESIZE_IMAGE', a)
-            elif o in ("-t", "--tags"):
+            elif o in ("-T", "--tags"):
                 self.o.setopt('IMAGE_TAGS', a)
             elif o in ("-K", "--clipboard"):
                 self.o.setopt('SEND_CLIPBOARD', True)

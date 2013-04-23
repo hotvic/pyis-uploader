@@ -15,6 +15,7 @@ class O:
 			'USER_USER'       : False,
 			'USER_PASSWORD'   : False,
 			'USER_COOKIE'     : False,
+            'IMAGE_TAGS'      : False,
 			'PYGTK_MODULE'    : False,
 			'VERBOSE_OUTPUT'  : False
 		}
