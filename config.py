@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 # 
-# Copyright © 2013 Victor Aurélio <victoraur.santos@gmail.com>
+# Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
 #
 # This file is part of PyIS-Uploader.
 #
