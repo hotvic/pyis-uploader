@@ -1,12 +1,29 @@
-# -*- coding: UTF-8 -*-
-
 #!/usr/bin/env python2
+# -*- coding: UTF-8 -*-
+# 
+# Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
+#
+# This file is part of PyIS-Uploader.
+#
+# PyIS-Uploader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PyIS-Uploader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import sys, os, getopt, gettext
 from config import O
 from isup import ISup
 
 LICENSE = """
-Copyright © 2012-2013 Victor Aurélio <aurelio@archlinux.info>
+Copyright © 2012-2013 Victor Aurélio <victoraur.santos@gmail.com>
 
 PyIS-Uploader is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -24,7 +41,7 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Constants
 IMAGESHACK_URL = "https://post.imageshack.us/upload_api.php"
-VERSION        = "PyIS-uploader version: 0.2"
+VERSION        = "PyIS-Uploader version: 0.2"
 
 # Install gettext
 gettext.install("pyis-uploader", unicode=1)
@@ -38,6 +55,7 @@ Options:
   -U|--user user  :       Your username (upload to your account, without cookie)
   -c|--cookie id  :       Use Registration code (upload to your account)
   -r|--resize WxH :       Resize image
+  -T|--tags       :       Add tags to uploaded image
   -K|--clipboard  :       Send uploaded image url to clipboard(GTK)
   -t|--thb-only   :       Only output the uploaded image url (Thumbnail)
   -u|--url-only   :       Only output the uploaded image url
@@ -81,6 +99,8 @@ class PyIS:
             self.isopts.append(('USER_PASSWORD', self.o.getopt('USER_PASSWORD')))
         elif self.o.getopt('USER_COOKIE'):
             self.isopts.append(('USER_COOKIE', self.o.getopt('USER_COOKIE')))
+        elif self.o.getopt('IMAGE_TAGS'):
+            self.isopts.append(('IMAGE_TAGS', self.o.getopt('IMAGE_TAGS')))
         elif self.o.getopt('VERBOSE_OUTPUT'):
             self.isopts.append(('CURL_VERBOSE', True))
         elif self.o.getopt('ONLY_PRINT_URL') or self.o.getopt('ONLY_PRINT_THB'):
@@ -99,8 +119,8 @@ class PyIS:
         if len(sys.argv) <= 1:
             self._show_help()
         try:
-            sopt = "P:U:c:r:KtufvVh"
-            lopt =  "pass= user= cookie= resize= clipboard thb-only \
+            sopt = "P:U:c:r:T:KtufvVh"
+            lopt =  "pass= user= cookie= resize= tags= clipboard thb-only \
                     url-only full-details verbose version license help".split()
             opts, args = getopt.getopt(sys.argv[1:], sopt, lopt)
         except getopt.GetoptError as err:
@@ -125,6 +145,8 @@ class PyIS:
                 self.o.setopt('PRINT_FULL_IN_M', True)
             elif o in ("-r", "--resize"):
                 self.o.setopt('RESIZE_IMAGE', a)
+            elif o in ("-T", "--tags"):
+                self.o.setopt('IMAGE_TAGS', a)
             elif o in ("-K", "--clipboard"):
                 self.o.setopt('SEND_CLIPBOARD', True)
             elif o in ("-U", "--user"):

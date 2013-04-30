@@ -1,11 +1,24 @@
 #!/bin/sh
+# -*- coding: UTF-8 -*-
+# 
+# Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
+#
+# This file is part of PyIS-Uploader.
+#
+# PyIS-Uploader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PyIS-Uploader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ## Setup script to PyIS-Uploader
-
-## 
-#* This file is part of PyIS-Upload, licensed
-#* under GNU GPL at version 3 or any other(at you preference) version.
-##
 
 LOCALES="en es pt_BR"
 
@@ -79,11 +92,11 @@ install_app(){
         install -d $DESTDIR/share/locale
     fi
     for loc in $LOCALES; do
-        msg3 "Installing $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ ! -d $DESTDIR/share/${loc}/LC_MESSAGES/ ]; then
-            install -d $DESTDIR/share/${loc}/LC_MESSAGES/
+        msg3 "Installing $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ ! -d $DESTDIR/share/locale/${loc}/LC_MESSAGES/ ]; then
+            install -d $DESTDIR/share/locale/${loc}/LC_MESSAGES/
     fi
-        install .temp/${loc}.mo $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo || error
+        install .temp/${loc}.mo $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo || error
     done
 
     ## Install man page
@@ -126,11 +139,11 @@ uninstall_app(){
     ## Uninstall locale
 
     for loc in $LOCALES; do
-        msg3 "Uninstalling $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
-        if [ -f $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo ];then
-            rm $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo
+        msg3 "Uninstalling $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
+        if [ -f $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo ];then
+            rm $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo
         else
-            msg3 "Warning: Unable to find $DESTDIR/share/${loc}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
+            msg3 "Warning: Unable to find $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo, ignoring..."
         fi
     done
 

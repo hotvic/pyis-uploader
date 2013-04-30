@@ -1,13 +1,26 @@
 # -*- coding: UTF-8 -*-
+# 
+# Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
+#
+# This file is part of PyIS-Uploader.
+#
+# PyIS-Uploader is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PyIS-Uploader is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import os, sys, pycurl, json
 from StringIO import StringIO
 from HTMLParser import HTMLParser
 from progressbar import *
-
-## 
-#* This file is part of PyIS-Upload, licensed
-#* under GNU GPL at version 3 or any other version.
-##
 
 class ISupError(Exception):
     pass
@@ -54,6 +67,8 @@ class ISup():
                 if o == "RESIZE_IMAGE":
                     self.Request.append(('optimage', 1))
                     self.Request.append(('optsize', a))
+                if o == "IMAGE_TAGS":
+                    self.Request.append(('tags', a))
                 elif o == "USER_USER":
                     self.Request.append(('a_username', a))
                 elif o == "USER_PASSWORD":
