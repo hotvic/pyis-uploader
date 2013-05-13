@@ -1,15 +1,15 @@
 # PyIS-Uploader.
-# Copyright © 2012-2013 - Victor Aurélio
+# Copyright © 2012,2013 - Victor Aurélio
 # This file is distributed under the same license as the PyIS-Uploader package.
-# Victor Aurélio <victoraur.santos@gmail.com>, 2012-2013.
+# Victor Aurélio <victoraur.santos@gmail.com>, 2012,2013.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyIS-Uploader 0.2\n"
 "Report-Msgid-Bugs-To: Victor Aurélio <victoraur.santos@gmail.com>\n"
-"POT-Creation-Date: 2013-02-13 16:56-0300\n"
-"PO-Revision-Date: 2013-02-15 15:30-0300\n"
+"POT-Creation-Date: 2013-04-30 16:30+BRT\n"
+"PO-Revision-Date: 2013-04-30  16:35-BRT\n"
 "Last-Translator: Victor Aurélio <victoraur.santos@gmail.com>\n"
 "Language-Team: Victor Aurélio <victoraur.santos@gmail.com>\n"
 "Language: pt_BR\n"
@@ -17,40 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pyis-uploader.py:34
-msgid ""
-"Usage: pyis-uploader [options] img_1_name [...] [img_N_name]\n"
-"Options:\n"
-"  -P|--pass pass  :       Your password (upload to your account, without cookie)\n"
-"  -U|--user user  :       Your username (upload to your account, without cookie)\n"
-"  -c|--cookie id  :       Use Registration code (upload to your account)\n"
-"  -r|--resize WxH :       Resize image\n"
-"  -T|--tags       :       Add tags to uploaded image\n"
-"  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)\n"
-"  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)\n"
-"  -u|--url-only   :       Only output the uploaded image url\n"
-"  -v|--verbose    :       Show debug messages\n"
-"  -V|--version    :       Show script version and exit\n"
-"  -h|--help       :       Show this help message\n"
-"  --license       :       Show program license"
-msgstr ""
-"Uso: pyih-uploader [opções] nome_do_arquivo1 [...] nome_do_arquivoN\n"
-"Opções:\n"
-"  -P|--pass pass  :      Sua senha (Envia para sua conta, sem cookie)\n"
-"  -U|--user user  :      Seu usuário (Envia para sua conta, sem cookie)\n"
-"  -c|--cookie id  :      Usar Código de Registro (Envia para sua conta)\n"
-"  -r|--resize WxH :      Redimensionar imagem\n"
-"  -T|--tags       :      Adicionar tags para a imagem\n"
-"  -K|--clipboard  :      Enviar URl da imagem para Área de Transferência\n"
-"  -t|--thb-only   :      Somente mostra a URL da imagem (Miniatura)\n"
-"  -u|--url-only   :      Somente mostra a URL da imagem (Completa)\n"
-"  -v|--verbose    :      Exibir mensagens de depuração\n"
-"  -V|--version    :      Exibir a versão do programa e sair\n"
-"  -h|--help       :      Exibir essa ajuda e sair\n"
-"  --license       :      Exibir a licensa do programa"
-
-#: pyis-uploader.py:37
-#, python-format
+#: pyis_uploader.py:33
 msgid ""
 "Uploader:\n"
 "  IP: %(IP)s\n"
@@ -82,7 +49,6 @@ msgstr ""
 "    HTML: %(CODE_H_THMB)s\n"
 "    BBCode: %(CODE_BB_THMB)s"
 
-#: pyis-uploader.py:122
-#, python-format
+#: pyis_uploader.py:116
 msgid "Error: File not found: %(name)s  Ignoring..."
 msgstr "Erro: Arquivo '%(name)s' não encontrado, Ignorando..."

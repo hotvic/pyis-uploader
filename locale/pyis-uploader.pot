@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-04-23 20:05+BRT\n"
+"POT-Creation-Date: 2013-04-30 16:30+BRT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,25 +15,7 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: pyis_uploader.py:34
-msgid ""
-"Usage: pyis-uploader [options] img_1_name [...] [img_N_name]\n"
-"Options:\n"
-"  -P|--pass pass  :       Your password (upload to your account, without cookie)\n"
-"  -U|--user user  :       Your username (upload to your account, without cookie)\n"
-"  -c|--cookie id  :       Use Registration code (upload to your account)\n"
-"  -r|--resize WxH :       Resize image\n"
-"  -T|--tags       :       Add tags to uploaded image\n"
-"  -K|--clipboard  :       Send uploaded image url to clipboard(GTK)\n"
-"  -t|--thb-only   :       Only output the uploaded image url (Thumbnail)\n"
-"  -u|--url-only   :       Only output the uploaded image url\n"
-"  -v|--verbose    :       Show debug messages\n"
-"  -V|--version    :       Show script version and exit\n"
-"  -h|--help       :       Show this help message\n"
-"  --license       :       Show program license"
-msgstr ""
-
-#: pyis_uploader.py:49
+#: pyis_uploader.py:33
 msgid ""
 "Uploader:\n"
 "  IP: %(IP)s\n"
@@ -51,7 +33,7 @@ msgid ""
 "    BBCode: %(CODE_BB_THMB)s"
 msgstr ""
 
-#: pyis_uploader.py:147
+#: pyis_uploader.py:116
 msgid "Error: File not found: %(name)s  Ignoring..."
 msgstr ""
 
