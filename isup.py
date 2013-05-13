@@ -34,10 +34,12 @@ class OptionError(ISupError):
         self.message = message
     def __str__(self):
         return repr(self.message)
+
 class ParseWorkaround(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == "img":
             self.thmburl = attrs[0][1]
+
 class ISup():
     """ Class for manage uploads
     Attributes:
@@ -64,19 +66,20 @@ class ISup():
         else:
             self.Request.append(("format", "json"))
             for o, a in [x for x in self.options]:
+                value = str(a)
                 if o == "RESIZE_IMAGE":
                     self.Request.append(('optimage', 1))
-                    self.Request.append(('optsize', a))
+                    self.Request.append(('optsize', value))
                 if o == "IMAGE_TAGS":
-                    self.Request.append(('tags', a))
+                    self.Request.append(('tags', value))
                 elif o == "USER_USER":
-                    self.Request.append(('a_username', a))
+                    self.Request.append(('a_username', value))
                 elif o == "USER_PASSWORD":
-                    self.Request.append(('a_password', a))
+                    self.Request.append(('a_password', value))
                 elif o == "USER_COOKIE":
-                    self.Request.append(('cookie', a))
+                    self.Request.append(('cookie', value))
                 elif o == "API_KEY":
-                    self.Request.append(('key', a))
+                    self.Request.append(('key', value))
                 elif o == "CURL_VERBOSE":
                     self.cURLopts.append('verbose')
                 elif o == "CURL_PROGRESSBAR":
@@ -97,15 +100,16 @@ class ISup():
         self.Result['URL']          = result["links"]["image_link"]
         self.Result['CODE_BB_THMB'] = result["links"]["thumb_bb2"]
 
-        ## This is an workaround for this bug:
+        ## This is a workaround for this bug:
         ## http://code.google.com/p/imageshackapi/issues/detail?id=41
         self.Result['URL_THMB'], self.Result['CODE_H_THMB'] = \
                                 self._workaround(result["links"]["thumb_link"])
+
     def _workaround(self, html):
         wa = ParseWorkaround()
         wa.feed(html)
-
         return wa.thmburl, html
+
     def _upload(self):
         cup = cURL(self.ISurl)
         if len(self.cURLopts) == 0:

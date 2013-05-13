@@ -19,7 +19,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, os, argparse, gettext
-from config import O
+import config
 from isup import ISup
 
 ## Constants
@@ -46,12 +46,9 @@ Codes:
     HTML: %(CODE_H_THMB)s
     BBCode: %(CODE_BB_THMB)s""")
 
-# config
-o = O()
-
 class PyIS:
     def __init__(self):
-        self.o = O()
+        self.o = config.Config()
         self.isopts = []
 
     def _isup(self, options):
@@ -72,7 +69,7 @@ class PyIS:
         elif self.o.getopt('ONLY_PRINT_URL') or self.o.getopt('ONLY_PRINT_THB'):
             self.isopts.append(('CURL_PROGRESSBAR', True))
 
-        self.isopts.append(('API_KEY', o.getopt('IMAGESHACK_KEY')))
+        self.isopts.append(('API_KEY', self.o.getopt('IMAGESHACK_KEY')))
 
     def pass_args(self):
         parser = argparse.ArgumentParser(prog='pyis-uploader', usage='%(prog)s [options] IMG [IMG ...]',
@@ -136,6 +133,7 @@ class PyIS:
             else:
                 for d in self.details:
                     self._printURL(d)
+        self.o.close()
 
     def _printfull(self, details):
         print UP_DETAILS % details
