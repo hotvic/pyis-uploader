@@ -22,17 +22,17 @@ import json
 
 DEFAULTS = {
     'IMAGESHACK_KEY'  : "47DHIJMSe847793024d16f9db3e6f7b0d31389cc",
-	'ONLY_PRINT_URL'  : False,
-	'ONLY_PRINT_THB'  : False,
+    'ONLY_PRINT_URL'  : False,
+    'ONLY_PRINT_THB'  : False,
     'PRINT_FULL_IN_M' : False,
-	'SEND_CLIPBOARD'  : False,
-	'RESIZE_IMAGE'    : False,
-	'USER_USER'       : False,
-	'USER_PASSWORD'   : False,
-	'USER_COOKIE'     : False,
+    'SEND_CLIPBOARD'  : False,
+    'RESIZE_IMAGE'    : False,
+    'USER_USER'       : False,
+    'USER_PASSWORD'   : False,
+    'USER_COOKIE'     : False,
     'IMAGE_TAGS'      : False,
-	'PYGTK_MODULE'    : False,
-	'VERBOSE_OUTPUT'  : False
+    'PYGTK_MODULE'    : False,
+    'VERBOSE_OUTPUT'  : False
 }
 
 class FBConfig(object):
