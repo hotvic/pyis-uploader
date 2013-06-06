@@ -86,7 +86,7 @@ install_app() {
     msg3 "Installing $DESTDIR/bin/pyis-uploader ..."
     echo "#!/bin/sh" > $DESTDIR/bin/pyis-uploader
     echo "" >> $DESTDIR/bin/pyis-uploader
-    echo "python2 $DESTDIR/lib/pyis-uploader/pyis_uploader.py \$@" >> $DESTDIR/bin/pyis-uploader
+    echo "python2.7 $DESTDIR/lib/pyis-uploader/pyis_uploader.py \$@" >> $DESTDIR/bin/pyis-uploader
     chmod 755 $DESTDIR/bin/pyis-uploader
     msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis_uploader.py ..."
     install -Dm644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
@@ -99,7 +99,7 @@ install_app() {
 
     ## Install locale
 
-	compileLocale
+    compileLocale
     if [ ! -d $DESTDIR/share/locale ]; then
         install -d $DESTDIR/share/locale
     fi
@@ -116,10 +116,10 @@ install_app() {
     if [ ! -d $DESTDIR/share/man/man1 ]; then
         install -d $DESTDIR/share/man/man1
     fi
-    install -m0644 docs/pyis-uploader.1 $DESTDIR/share/man/man1/ || error
-    gzip $DESTDIR/share/man/man1/pyis-uploader.1 || error
+    gzip docs/pyis-uploader.1 -c > .temp/pyis-uploader.1.gz || error
+    install -m0644 .temp/pyis-uploader.1.gz $DESTDIR/share/man/man1/ || error
 
-	rm -rf .temp
+    rm -rf .temp
     msg2 "Installation successfully"
 }
 
