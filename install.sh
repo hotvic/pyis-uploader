@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -*- coding: UTF-8 -*-
 # 
 # Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
@@ -22,19 +22,31 @@
 
 LOCALES="en es pt_BR"
 
-msg2(){
+msg2() {
     echo -e "\033[32m==>\033[0m $1"
 }
 
-msg3(){
+msg3() {
     echo -e "\033[33m===>\033[0m $1"
 }
-error(){
+error() {
     echo "Error, exiting..."
     exit 1
 }
 
-compileLocale(){
+show_help() {
+    cat << !EOF
+Usage: ./install.sh [Options] [Command]
+Options:
+  --prefix  :        Installation prefix
+  --help    :        Show this help message
+Commands:
+  install   :        Install program
+  uninstall :        Uninstall program (need --prefix)
+!EOF
+}
+
+compileLocale() {
 	msg2 "Compiling locale..."
 
 	if [ ! -d .temp ]; then
@@ -50,7 +62,7 @@ compileLocale(){
 	msg2 "Locale compiled!"
 }
 
-install_app(){
+install_app() {
     if [ -z $DESTDIR ]; then
         DESTDIR=$1
     else
@@ -58,7 +70,7 @@ install_app(){
     fi
 
     if [ -d $DESTDIR ] && [ ! -w $DESTDIR ]; then
-        echo "You no have permission to write to $DESTDIR"
+        echo "You don't have permission to write to $DESTDIR"
         exit 1
     fi
 
@@ -77,13 +89,13 @@ install_app(){
     echo "python2 $DESTDIR/lib/pyis-uploader/pyis_uploader.py \$@" >> $DESTDIR/bin/pyis-uploader
     chmod 755 $DESTDIR/bin/pyis-uploader
     msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis_uploader.py ..."
-    install -Dm=644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
+    install -Dm644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/utils.py ..."
-    install -Dm=644 utils.py $DESTDIR/lib/pyis-uploader/utils.py || error
+    install -Dm644 utils.py $DESTDIR/lib/pyis-uploader/utils.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/config.py ..."
-    install -Dm=644 config.py $DESTDIR/lib/pyis-uploader/config.py || error
+    install -Dm644 config.py $DESTDIR/lib/pyis-uploader/config.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/isup.py ..."
-    install -Dm=644 isup.py $DESTDIR/lib/pyis-uploader/isup.py || error
+    install -Dm644 isup.py $DESTDIR/lib/pyis-uploader/isup.py || error
 
     ## Install locale
 
@@ -104,14 +116,14 @@ install_app(){
     if [ ! -d $DESTDIR/share/man/man1 ]; then
         install -d $DESTDIR/share/man/man1
     fi
-    install -m 0644 docs/pyis-uploader.1 $DESTDIR/share/man/man1/ || error
+    install -m0644 docs/pyis-uploader.1 $DESTDIR/share/man/man1/ || error
     gzip $DESTDIR/share/man/man1/pyis-uploader.1 || error
 
 	rm -rf .temp
     msg2 "Installation successfully"
 }
 
-uninstall_app(){
+uninstall_app() {
     if [ -z $DESTDIR ]; then
         DESTDIR=$1
     else
@@ -119,7 +131,7 @@ uninstall_app(){
     fi
 
     if [ -d $DESTDIR ] && [ ! -w $DESTDIR ]; then
-        echo "You no have permission to write to $DESTDIR"
+        echo "You don't have permission to write to $DESTDIR"
         exit 1
     fi
 
@@ -134,7 +146,10 @@ uninstall_app(){
     fi
 
     ## Uninstall python files
-    rm -rf $DESTDIR/lib/pyis-uploader
+    if [ -d $DESTDIR/lib/pyis-uploader ]; then
+        msg3 "Uninstalling $DESTDIR/lib/pyis-uploader ..."
+        rm -rf $DESTDIR/lib/pyis-uploader
+    fi
     
     ## Uninstall locale
 
@@ -147,42 +162,80 @@ uninstall_app(){
         fi
     done
 
+    ## Uinstall man page(s)
+    if [ -f $DESTDIR/share/man/man1/pyis-uploader.1.gz ]; then
+        msg3 "Uninstalling $DESTDIR/share/man/man1/pyis-uploader.1.gz ..."
+        rm $DESTDIR/share/man/man1/pyis-uploader.1.gz
+    fi
+
     msg2 "Uninstallation successfully"
 }
 
-passArgs(){
-    for i in $@; do
-        if [[ $i = "--prefix="* ]]; then
-            PREFIX=$(echo $i | sed -re 's#\-\-prefix\=(.*)#\1#')
-            LAST=$(echo $PREFIX | sed -re 's/.*(.)$/\1/')
-            if [[ $LAST = "/" ]]; then
-                PREFIX=$(echo $PREFIX | sed -re 's/(.*).$/\1/')
-            fi
-        elif [[ $i = "--help" ]]; then
-            cat << !
-Usage: ./install.sh [Options] [Command]
-Options:
-  --prefix  :        Installation prefix
-  --help    :        Show this help message
-Commands:
-  install   :        Install program
-  uninstall :        Uninstall program (need --prefix)
-!
-        elif [[ $i = "install" ]]; then
-            msg2 "Using $PREFIX as prefix..."
-            install_app $PREFIX
-        elif [[ $i = "uninstall" ]]; then
-            msg2 "Using $PREFIX as prefix..."
-            uninstall_app $PREFIX
-        else
-            msg3 "Unknown command or option: $i"
-            error
-        fi
+passArgs() {
+    TEMP=$(getopt -u -n "PyIS-Uploader Install" -l "prefix: help" -o "h" -- "$@")
+    if [ $? -ne 0 ]; then
+        echo $TEMP >&2
+        exit 1
+    fi
+    set -- $TEMP
+    prefix= help= action=
+    while true ; do
+        case "$1" in
+            --prefix)
+                prefix="$2"
+                shift 2
+                ;;
+            --help|-h)
+                help=1
+                shift
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)
+        esac
     done
+    for arg do
+        case "$arg" in
+            install)
+                action="install"
+                ;;
+            uninstall)
+                action="uninstall"
+                ;;
+            *)
+                help=1
+        esac
+    done
+    if [ ! -z $help ]; then
+        show_help
+        exit
+    fi
+    if [ -z $prefix ]; then
+        msg3 "WARNING: Using default prefix: /usr"
+        prefix="/usr"
+    else
+        LAST=$(echo $prefix | sed -re 's/.*(.)$/\1/')
+        if [ "$LAST" == "/" ]; then
+            PREFIX=$(echo $prefix | sed -re 's/(.*).$/\1/')
+        fi
+    fi
+    if [ -z $action ]; then
+        show_help
+    fi
+
+    case "$action" in
+        install)
+            msg2 "Using $prefix as prefix..."
+            install_app $prefix
+            ;;
+        uninstall)
+            msg2 "Using $prefix as prefix..."
+            uninstall_app $prefix
+            ;;
+        *)
+    esac
 }
 
-if [ $# -gt 1 ]; then 
-	passArgs $@
-else
-	passArgs '--help'
-fi
+passArgs $@
