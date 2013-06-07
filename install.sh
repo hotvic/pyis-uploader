@@ -90,7 +90,7 @@ install_app() {
     echo "python2.7 $DESTDIR/lib/pyis-uploader/pyis_uploader.py \$@" >> $DESTDIR/bin/pyis-uploader
     chmod 755 $DESTDIR/bin/pyis-uploader
     msg3 "Installing $DESTDIR/lib/pyis-uploader/pyis_uploader.py ..."
-    install -Dm644 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
+    install -Dm755 pyis_uploader.py $DESTDIR/lib/pyis-uploader/pyis_uploader.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/utils.py ..."
     install -Dm644 utils.py $DESTDIR/lib/pyis-uploader/utils.py || error
     msg3 "Installing $DESTDIR/lib/pyis-uploader/config.py ..."
@@ -108,8 +108,8 @@ install_app() {
         msg3 "Installing $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo ..."
         if [ ! -d $DESTDIR/share/locale/${loc}/LC_MESSAGES/ ]; then
             install -d $DESTDIR/share/locale/${loc}/LC_MESSAGES/
-    fi
-        install .temp/${loc}.mo $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo || error
+        fi
+        install -m644 .temp/${loc}.mo $DESTDIR/share/locale/${loc}/LC_MESSAGES/pyis-uploader.mo || error
     done
 
     ## Install man page
