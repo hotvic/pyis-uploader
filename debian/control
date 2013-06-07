@@ -1,0 +1,22 @@
+Source: pyis-uploader
+Maintainer: Victor Aurélio Santos <victoraur.santos@gmail.com>
+Section: utils
+Priority: optional
+Standards-Version: 3.9.4
+Build-Depends: debhelper (>= 8)
+X-Python-Version: >= 2.7
+
+Package: pyis-uploader
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}, python (>=2.7), python-pycurl, python-progressbar
+Recommends: python-gtk2
+Description: A uploader for the ImageShack service
+ PyIS-Uploader is a powerful tool written in python that uses PycURL to send
+ image files to ImageShack, a great site for file shares images.
+ .
+ Features:
+  * A text progress bar indicating the upload progress
+  * Support for resize
+  * Support for tags
+  * Support for upload into account (user/password or cookie)
+  * Support for send uploaded image url to X CLIPBOARD (Require python-gtk2)
