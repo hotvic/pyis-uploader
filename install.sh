@@ -67,6 +67,7 @@ install_app() {
         DESTDIR=$1
     else
         msg2 "Using $DESTDIR as destination directory..."
+        DESTDIR=$DESTDIR$1
     fi
 
     if [ -d $DESTDIR ] && [ ! -w $DESTDIR ]; then
@@ -128,6 +129,7 @@ uninstall_app() {
         DESTDIR=$1
     else
         msg2 "Using $DESTDIR as destination directory ..."
+        DESTDIR=$DESTDIR$1
     fi
 
     if [ -d $DESTDIR ] && [ ! -w $DESTDIR ]; then
