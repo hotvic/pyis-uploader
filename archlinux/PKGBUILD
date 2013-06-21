@@ -1,0 +1,24 @@
+# Author: Victor Aurélio <victoraur.santos@gmail.com>
+# Maintainer: Victor Aurélio <victoraur.santos@gmail.com>
+
+pkgname=pyis-uploader
+pkgver=0.2b1
+pkgrel=1
+pkgdesc="is small python2 program to upload images to imageshack."
+arch=('any')
+url="https://github.com/hotvic/pyih-uploader/"
+license=('GPL3')
+depends=('python2' 'python2-pycurl' 'python2-progressbar')
+optdepends=('pygtk: Needed to send to clipboard')
+options=(!emptydirs)
+source=("https://github.com/hotvic/pyis-uploader/archive/v${pkgver}.tar.gz")
+md5sums=()
+
+package() {
+    cd $srcdir/$pkgname-${pkgver}/
+
+    ./autogen.sh
+    PYTHON=/usr/bin/python2 ./configure --prefix=/usr
+    make
+    make DESTDIR="$pkgdir" install
+}
