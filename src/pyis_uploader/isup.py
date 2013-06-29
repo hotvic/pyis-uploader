@@ -20,7 +20,6 @@
 import os, sys, pycurl, json
 from StringIO import StringIO
 from HTMLParser import HTMLParser
-from progressbar import *
 
 class ISupError(Exception):
     pass
@@ -142,16 +141,26 @@ class cURL:
     def __init__(self, url):
         self.URL = url
         self.cp = pycurl.Curl()
-        ## progressbar
-        pyih_widget = ['UPLOAD: ', Percentage(), ' ', Bar(marker='#',
-                                    left='[',right=']'), ' ', ETA(), ' ',
-                                    FileTransferSpeed("k")]
-        self.pb = ProgressBar(widgets = pyih_widget, maxval = 100)
+        # progressbar
+        self._curprogress = 0
+
+    def _progress_update(self, pfloat):
+        self._curprogress = pfloat * 100
+        size = 74 # 80: [ 74*# ] + space + percent
+
+        hashs = '#'*int(pfloat*size)
+        if len(hashs) < size:
+            hashs += ' '*(size - len(hashs))
+
+        sys.stdout.write("\r[{0}] %{1}".format(hashs, int(pfloat*100)))
+        sys.stdout.flush()
+        if (pfloat*100) == 100:
+            sys.stdout.write('\n')
 
     def _progress(self, dt, dd, ut, ud):
-        current = (ud != 0) and int(ud / ut * 100) or 1
-        if not current == self.pb.percentage():
-            self.pb.update(current)
+        current = (ud != 0) and int(ud / ut * 100) or 0.01
+        if not current == self._curprogress:
+            self._progress_update(current/100.0)
 
 
     def getJSON(self, POST, progress = True, verbose = False):
@@ -160,7 +169,6 @@ class cURL:
         self.cp.setopt(self.cp.URL, self.URL)
 
         if progress:
-            self.pb.start()
             self.cp.setopt(self.cp.NOPROGRESS, 0)
             self.cp.setopt(self.cp.PROGRESSFUNCTION, self._progress)
         if verbose:
@@ -170,9 +178,6 @@ class cURL:
         result = StringIO()
         self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
         self.cp.perform()
-
-        if progress:
-            self.pb.finish()
 
         return result.getvalue()
 
