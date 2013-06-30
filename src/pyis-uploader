@@ -1,0 +1,7 @@
+#!python
+
+from pyis_uploader import pyis_uploader
+
+pyis = pyis_uploader.PyIS()
+pyis.pass_args()
+pyis.send()
