@@ -18,9 +18,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, os, argparse, gettext
+import os
+import sys
+import gettext
+import argparse
+
 import config
 from isup import ISup
+from utils import clipboard_copy
 
 ## Constants
 IMAGESHACK_URL = "https://post.imageshack.us/upload_api.php"
@@ -119,20 +124,30 @@ class PyIS:
         if len(self.details) == 1:
             if self.o.getopt("ONLY_PRINT_URL"):
                 print self._printURL(self.details[0])
+                if self.o.getopt('SEND_CLIPBOARD'):
+                    clipboard_copy(self.details[0]['URL'])
             elif self.o.getopt("ONLY_PRINT_THB"):
                 print self._printTHMB(self.details[0])
+                if self.o.getopt('SEND_CLIPBOARD'):
+                    clipboard_copy(self.details[0]['URL_THMB'])
             else:
                 self._printfull(self.details[0])
         else:
             if self.o.getopt("PRINT_FULL_IN_M"):
                 for d in self.details:
                     self._printfull(d)
+                    if self.o.getopt('SEND_CLIPBOARD'):
+                        clipboard_copy(d['URL'])
             elif self.o.getopt("ONLY_PRINT_THB"):
                 for d in self.details:
                     self._printTHMB(d)
+                    if self.o.getopt('SEND_CLIPBOARD'):
+                        clipboard_copy(d['URL_THMB'])
             else:
                 for d in self.details:
                     self._printURL(d)
+                    if self.o.getopt('SEND_CLIPBOARD'):
+                        clipboard_copy(d['URL'])
         self.o.close()
 
     def _printfull(self, details):

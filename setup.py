@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import os
 from distutils.core import setup
+
+try:
+    from DistUtilsExtra.command import build_extra, build_i18n
+    cmdclass = {"build": build_extra.build_extra,
+                "build_i18n": build_i18n.build_i18n}
+except ImportError:
+    cmdclass = {}
+
 
 setup(name='pyis-uploader',
       version='0.2b',
@@ -12,5 +21,7 @@ setup(name='pyis-uploader',
       license='GPL3',
       package_dir={'': 'src'},
       packages=['pyis_uploader'],
-      scripts=['src/pyis-uploader'])
+      scripts=['src/pyis-uploader'],
+      requires=['pycurl'],
+      cmdclass = cmdclass)
 

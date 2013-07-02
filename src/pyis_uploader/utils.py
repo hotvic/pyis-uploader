@@ -17,30 +17,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-from progressbar import *
-from cStringIO import StringIO
-
 ## PyGTK use to send url to clipboard
 try:
-	import pygtk
-	pygtk.require('2.0')
-	import gtk
-	o.setopt('PYGTK_MODULE', True)
-except:
-	o.setopt('PYGTK_MODULE', False)
+    from gi.repository import Gdk, Gtk
 
-class clipB:
-	def __init__(self):
-		self.cb = gtk.clipboard_get()
-	def send_text(self, text):
-		self.cb.set_text(text)
-		self.cb.store()
-
-def copyToClipB(text):
-	if not o.getopt('PYGTK_MODULE'):
-		return False
-	else:
-		cb = clipB()
-		cb.send_text(text)
-		return True
+    def clipboard_copy(text):
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(text, -1)
+except ImportError:
+    def clipboard_copy(text):
+        pass
