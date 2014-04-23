@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkApplicationWindow" id="mw">
+    <property name="title" translatable="yes">PyIS-Uploader - GUI (GTK+)</property>
+    <property name="default_width">628</property>
+    <property name="default_height">508</property>
+    <signal name="delete-event" handler="onQuit" />
+    <child>
+      <object class="GtkBox" id="vbox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkMenuBar" id="mwmenubar">
+            <child>
+              <object class="GtkMenuItem" id="filemenuitem">
+                <property name="label" translatable="yes">_File</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="filemenu">
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_addimage">
+                        <property name="label">gtk-add</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onAddImg" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_removeimage">
+                        <property name="label">gtk-remove</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onRemoveImg" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" />
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_preferences">
+                        <property name="label">gtk-preferences</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onOpenPrefs" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" />
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_quit">
+                        <property name="label">gtk-quit</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onQuit" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="queuemenuitem">
+                <property name="label" translatable="yes">_Queue</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="queuemenu">
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_gototop">
+                        <property name="label">gtk-goto-top</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onGoToTop" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_gotobottom">
+                        <property name="label">gtk-goto-bottom</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onGoToBottom" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" />
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_goback">
+                        <property name="label">gtk-go-back</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onGoBack" />
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_goforward">
+                        <property name="label">gtk-go-forward</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="onGoForward" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="helpmenuitem">
+                <property name="label" translatable="yes">_Help</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="helpmenu">
+                    <child>
+                      <object class="GtkImageMenuItem" id="item_help">
+                        <property name="label">gtk-about</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="activate" handler="onAbout" />
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToolbar" id="toolbar">
+            <child>
+              <object class="GtkToolButton" id="button_addimage">
+                <property name="stock_id">gtk-add</property>
+                <signal name="clicked" handler="onAddImg" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-remove</property>
+                <signal name="clicked" handler="onRemoveImg" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorToolItem" />
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-goto-top</property>
+                <signal name="clicked" handler="onGoToTop" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-go-back</property>
+                <signal name="clicked" handler="onGoBack" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-go-forward</property>
+                <signal name="clicked" handler="onGoForward" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-goto-bottom</property>
+                <signal name="clicked" handler="onGoToBottom" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorToolItem" />
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="stock_id">gtk-quit</property>
+                <signal name="clicked" handler="onQuit" />
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="queue_sw">
+            <child>
+              <object class="GtkIconView" id="queue_iv">
+                <property name="model">queue_ls</property>
+                <property name="pixbuf-column">0</property>
+                <property name="text-column">1</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="fill">true</property>
+            <property name="expand">true</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <child>
+              <object class="GtkProgressBar">
+              </object>
+              <packing>
+                <property name="expand">true</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="queue_ls">
+    <columns>
+      <column type="GdkPixbuf" />
+      <column type="gchararray" />
+      <column type="gchararray" />
+    </columns>
+  </object>
+</interface>
