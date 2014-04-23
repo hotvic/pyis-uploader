@@ -1,7 +1,7 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 # 
-# Copyright © 2012, 2013 Victor Aurélio <victoraur.santos@gmail.com>
+# Copyright © 2012-2014 Victor A. Santos <victoraur.santos@gmail.com>
 #
 # This file is part of PyIS-Uploader.
 #
@@ -29,10 +29,10 @@ from utils import clipboard_copy
 
 ## Constants
 IMAGESHACK_URL = "https://post.imageshack.us/upload_api.php"
-VERSION        = 'PyIS-Uploader 0.2'
+VERSION        = 'PyIS-Uploader 0.3'
 
 # Install gettext
-gettext.install("pyis-uploader", unicode=1)
+gettext.install("pyis-uploader")
 
 ## Messages
 UP_DETAILS = _("""\
@@ -78,7 +78,7 @@ class PyIS:
 
     def pass_args(self):
         parser = argparse.ArgumentParser(prog='pyis-uploader', usage='%(prog)s [options] IMG [IMG ...]',
-                                         description='PyIS-Uploader (Python ImageShack Uploader) is small python2 program to upload images to ImageShack')
+                                         description='PyIS-Uploader (Python ImageShack Uploader) is small Python program to upload images to ImageShack')
         # Add arguments
         parser.add_argument('img', metavar='IMG', nargs='+', help='Image files to upload')
         parser.add_argument('--pwd', '-P', help='Your password (upload to your account, without cookie)')
@@ -115,7 +115,7 @@ class PyIS:
         self._isup(self.isopts)
         for img in args.img:
             if not os.path.isfile(img):
-                print _("Error: File not found: %(name)s  Ignoring...") % {'name': img}
+                print(_("Error: File not found: %(name)s  Ignoring...") % {'name': img})
             else:
                 self.isup.queue(img)
 
@@ -123,11 +123,11 @@ class PyIS:
         self.details = self.isup.upload()
         if len(self.details) == 1:
             if self.o.getopt("ONLY_PRINT_URL"):
-                print self._printURL(self.details[0])
+                print(self._printURL(self.details[0]))
                 if self.o.getopt('SEND_CLIPBOARD'):
                     clipboard_copy(self.details[0]['URL'])
             elif self.o.getopt("ONLY_PRINT_THB"):
-                print self._printTHMB(self.details[0])
+                print(self._printTHMB(self.details[0]))
                 if self.o.getopt('SEND_CLIPBOARD'):
                     clipboard_copy(self.details[0]['URL_THMB'])
             else:
@@ -151,13 +151,13 @@ class PyIS:
         self.o.close()
 
     def _printfull(self, details):
-        print UP_DETAILS % details
+        print(UP_DETAILS % details)
 
     def _printURL(self, details):
-        print details['URL']
+        print(details['URL'])
 
     def _printTHMB(self, details):
-        print details['URL_THMB']
+        print(details['URL_THMB'])
 
 if __name__ == "__main__":
     pyis = PyIS()

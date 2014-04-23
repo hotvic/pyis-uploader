@@ -17,9 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import os, sys, pycurl, json
-from StringIO import StringIO
-from HTMLParser import HTMLParser
+import os, sys, json
+from io import BytesIO
+from html.parser import HTMLParser
+import pycurl
 
 class ISupError(Exception):
     pass
@@ -175,11 +176,11 @@ class cURL:
             self.cp.setopt(self.cp.VERBOSE, 1)
             self.cp.setopt(self.cp.DEBUGFUNCTION, self._debug)
 
-        result = StringIO()
+        result = BytesIO()
         self.cp.setopt(self.cp.WRITEFUNCTION, result.write)
         self.cp.perform()
 
-        return result.getvalue()
+        return result.read()
 
     def _debug(self, dtype, dmsg):
         sys.stdout.write("PycURL: ({0:d}): {1:>s}".format(dtype, dmsg))
