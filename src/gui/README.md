@@ -1,5 +1,5 @@
 PyIS-Uploader GUI
-==========================
+=================
 
 This folder contains the GUIs (Graphical User Interface) used by [PyIS-Uploader](../../).
 

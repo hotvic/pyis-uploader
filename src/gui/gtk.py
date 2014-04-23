@@ -6,17 +6,19 @@ from gi.repository import Gdk
 from gi.repository import Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 from threading import Thread
-# from isup import ISup
+from common import get_ui_path
+
+# from .isup import ISup
 
 LICENSE = """
-Copyright © 2013 Victor A. Santos <victoraur.santos@gmail.com>
+Copyright © 2013,2014 Victor A. Santos <victoraur.santos@gmail.com>
 
-PyIS-Uploader GUI is free software: you can redistribute it and/or modify it
+PyIS-Uploader is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-PyIS-Uploader GUI is distributed in the hope that it will be useful, but
+PyIS-Uploader is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
@@ -84,7 +86,7 @@ class PyISGUI(Gtk.Application):
         Gtk.Application.__init__(self, application_id="org.hotvic.pyis-uploader-gui-gtk3")
 
         # Builder
-        self.builder = Gtk.Builder.new_from_file('gtk.ui')
+        self.builder = Gtk.Builder.new_from_file(get_ui_path('mainwindow.ui'))
 
         # Main Window
         self._mw = self.builder.get_object('mw')
@@ -116,11 +118,8 @@ class PyISGUI(Gtk.Application):
     def startup(self, app):
         self.add_window(self._mw)
 
-    def _show(self):
-        self._mw.show_all()
-
     def show(self):
-        self._show()
+        self._mw.show_all()
         Gtk.main()
 
     ## Callbacks
@@ -297,12 +296,12 @@ class PyISGUI(Gtk.Application):
                 main_iteration()
 
     def _cb_about(self, button):
-        about = AboutDialog()
+        about = Gtk.AboutDialog()
         
         about.set_program_name("PyIS-Uploader GUI")
         about.set_version("0.2a Beta")
         about.set_copyright("Copyright © 2014 - Victor A. Santos")
-        about.set_comments("PyIS-Uploader is a GUI(Graphical User Interface) for PyIS-Uploader, Written in Python and GTK.\n\nPyIS-Uploader is a powerful tool written in python that uses PycURL to send image files to ImageShack, a great site for file shares images.")
+        about.set_comments("PyIS-Uploader GUI(Graphical User Interface) for PyIS-Uploader, Written in Python and GTK.\n\nPyIS-Uploader is a powerful tool written in python that uses PycURL to send image files to ImageShack, a great site for image file share.")
         about.set_license(LICENSE)
         about.set_website("https://github.com/hotvic/pyis-uploader/")
         about.set_website_label("Home Page on GitHub")
